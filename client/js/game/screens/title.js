@@ -62,7 +62,7 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 				callback: this.play
 			});
 			this.addChild(this.btnPlay);
-			this.btnPlay.dock(0.5, null);
+			this.btnPlay.dock(0.5, 0.7);
 
 			this.moreOpt = new LargeButton({
 				name: "moreOpt",
@@ -75,7 +75,7 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 				callback: this.showOptions
 			});
 			this.addChild(this.moreOpt);
-			this.moreOpt.dock(0.5, null);
+			this.moreOpt.dock(0.5, 0.8);
 				
 			/*this.btnContinue = new LargeButton({
 				name: "btnContinue",
@@ -129,7 +129,10 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 			});
 			this.addChild(this.overlay);*/
 
-			this.optOverlay = new chooseOptions({});
+			this.optOverlay = new chooseOptions({
+				width:1680,
+				height:1050
+			});
 			this.optOverlay.alpha = 0;
 			this.addChild(this.optOverlay);
 		},
@@ -149,6 +152,8 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 
 		showOptions:function()
 		{
+			if(this.isOverlay) return;
+			this.isOverlay = true;
 			this.optOverlay.alpha = 1;
 		},
 

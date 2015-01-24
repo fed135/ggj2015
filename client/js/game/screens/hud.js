@@ -28,20 +28,20 @@ function(Events, Background, DisplayObject, Dictionary, Tween, Easings, GameData
 			data:"media/images/buttons/btnPause.png",
 			x: 700,
 			y: 20,
-			onclick:this.pause
-		    onpress:function(){this.loadBitmap("media/images/buttons/btnPausePress.png")},
+			onclick:pause.bind(this),
+		    onpress:function(){this.loadBitmap("media/images/buttons/btnPause.png")},
 			onrelease:function(){this.loadBitmap("media/images/buttons/btnPause.png")},
 			onleave:function(){this.loadBitmap("media/images/buttons/btnPause.png")}
 		});
 		this.addChild(this.btnPause);
-		
-		this.pause = function()
-		{						
-			console.log("PAUSE GAME MOFOCKA");
-		}
+		this.btnPause.dock(0.95,0.15);
 	};
 
-	Arstider.Inherit(Overlay, DisplayObject);
+	function pause(){
+		console.log("PAUSE GAME MOFOCKA");
+	}
+
+	Arstider.Inherit(hud, DisplayObject);
 
 	return hud;
 });
