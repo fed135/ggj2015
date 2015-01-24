@@ -22,6 +22,11 @@ function gameStart(){
 			GameData.load(configs);
 			Sound.load("media/music/sprite", soundSprite);
 			
+			Viewport.minWidth = 1280;
+			Viewport.minHeight = 800;
+			Viewport.maxWidth = 1680;
+			Viewport.maxHeight = 1050;
+			
 			Engine.debug = true;
 			Arstider.verbose = 2;
 			Engine.start("main", true);
@@ -30,6 +35,7 @@ function gameStart(){
 				
 			//#################################################
 			
+
 			Viewport._resize();
 			Engine.loadScreen("screens/title");
 		});

@@ -1,15 +1,21 @@
 define("screens/Preloader",[                         
-	"Arstider/DisplayObject"
-], function(DisplayObject){
+	"Arstider/DisplayObject","Arstider/Viewport"
+], function(DisplayObject, Viewport){
 	
 	return {
 		init:function()
 		{
+			this.width = Viewport.maxWidth;
+			this.height = Viewport.maxHeight;
+
 			this.bg = new DisplayObject({
 				name: "bg",
-				data: "media/images/screens/preloader/bg.jpg"
+				data: "media/images/screens/preloader/bg.jpg",
+				width:1136,
+				height:672
 			});
 			this.addChild(this.bg);
+			this.bg.dock(0.5,0.5);
 
 			this.bar = new DisplayObject({
 				name: "bar",
@@ -18,6 +24,7 @@ define("screens/Preloader",[
 				y: 318
 			});
 			this.addChild(this.bar);
+			this.bar.dock(0.33,0.485);
 		},
 		update:function(pc)
 		{
