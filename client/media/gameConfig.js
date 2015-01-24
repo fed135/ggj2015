@@ -1,5 +1,7 @@
 define([], {
 
+	tileSize:128,
+
 	/*	Local mode game playerControlls	*/
 	playerControlls:[
 
@@ -33,7 +35,7 @@ define([], {
 
 	blockers:[
 		{
-			url: "tree1.png",
+			url: "blocker1.png",
 			xOffset:0,
 			yOffset:0
 		}

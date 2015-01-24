@@ -9,8 +9,6 @@ function(GameData, Block){
 	MountainScroller.CLIMBABLE = 0;
 	MountainScroller.BLOCKER = 1;
 	MountainScroller.PICKUP = 2;
-
-	MountainScroller.paddingSection = [MountainScroller.CLIMBABLE, MountainScroller.CLIMBABLE];
 	
 	function MountainScroller(){
 
@@ -28,6 +26,8 @@ function(GameData, Block){
 			tile
 		;
 
+		console.log("generating sections with pattern ", pattern);
+
 		for(;i<views.length;i++){
 			if(!pattern){
 				pattern = getRandomFrom(this.patternList);
@@ -38,6 +38,7 @@ function(GameData, Block){
 				for(tile=0; tile<pattern[u].length;tile++){
 					this.buildTile(views[i], u , tile, pattern[u][tile]);
 				}
+				views[i].currentAltitude++;
 			}
 		}
 	};
@@ -50,10 +51,12 @@ function(GameData, Block){
 			tile
 		;
 
+		console.log("Building tile TYPE: ", type, ", x:", x, ", y:", (container.currentAltitude + y));
+
 		tile = new Block({
 			type:type,
 			xPos:x,
-			yPos:container.currentAltitude,
+			yPos:container.currentAltitude + y,
 			texture:getRandomFrom(this.textureList),
 			blocker:(type == MountainScroller.BLOCKER)?getRandomFrom(this.blockerList):null
 		});

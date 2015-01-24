@@ -20,7 +20,8 @@ function(Viewport, DisplayObject, Camera){
 
 		for(;i<sections;i++){
 			cam = new Camera({
-				index:i
+				index:i,
+				name:"Camera"+i
 			});
 
 			cam.fill(1/sections, 1);

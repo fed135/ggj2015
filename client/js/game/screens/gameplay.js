@@ -6,9 +6,11 @@ define("screens/gameplay",
 	"managers/CameraManager",
 	"managers/MountainScroller",
 	"managers/PlayerController",
-	"managers/TurnManager"
+	"managers/TurnManager",
+
+	"entities/Player"
 ], 
-function(Background, DisplayObject, CameraManager, MountainScroller, PlayerController, TurnManager){
+function(Background, DisplayObject, CameraManager, MountainScroller, PlayerController, TurnManager, Player){
 	var thisRef;
 	//The game object
 	return {	
@@ -27,7 +29,16 @@ function(Background, DisplayObject, CameraManager, MountainScroller, PlayerContr
 			PlayerController.init(this.numberOfPlayers);
 			//MountainScroller;
 			for(var i = 0; i<5; i++){
-				MountainScroller.generateSection(CameraManager.cameras, MountainScroller.paddingSection);
+				MountainScroller.generateSection(CameraManager.cameras, [[0, 0]]);
+			}
+
+			var player;
+			for(var p = 0; p<this.numberOfPlayers; p++){
+				player = new Player({
+					id:p,
+					name:"Player"+p
+				});
+				CameraManager.cameras[p].addChild(player);
 			}
 		},
 		
