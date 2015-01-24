@@ -31,7 +31,10 @@ function(DisplayObject, Shape, GameData){
 
 		this.altitude = 0;
 
+		this.level;
+
 		this.x += ((tileSize - this.width)*0.5);
+		this.y += ((tileSize - this.height)*0.5);
 	}
 
 	Arstider.Inherit(Player, DisplayObject);
@@ -56,7 +59,7 @@ function(DisplayObject, Shape, GameData){
 		console.log("trying to climb ", numTiles, " tiles in lane ", this.lane, " at altitude ", this.altitude );
 
 
-		var availTiles = this.parent.checkNextBlocker(this.lane, this.altitude, numTiles);
+		var availTiles = this.level.checkNextBlocker(this.lane, this.altitude, numTiles);
 
 		console.log(availTiles, " available tiles");
 
@@ -69,7 +72,7 @@ function(DisplayObject, Shape, GameData){
 	Player.prototype.move = function(msg){
 		console.log(this.name + " " + msg);
 
-		var isBlocked = this.parent.isBlocker((this.lane == 0)?1:0, this.altitude+1);
+		var isBlocked = this.level.isBlocker((this.lane == 0)?1:0, this.altitude+1);
 		if(isBlocked) return;
 
 		if(this.lane == 0){
@@ -101,7 +104,7 @@ function(DisplayObject, Shape, GameData){
 
 	Player.prototype.fall = function(msg){
 		console.log(this.name + " " + msg);
-		var fallDist = this.parent.checkPreviousBlocker(this.altitude, this.lane);
+		var fallDist = this.level.checkPreviousBlocker(this.altitude, this.lane);
 
 		this.y += (fallDist*this.moveDist);
 		this.altitude -= fallDist;

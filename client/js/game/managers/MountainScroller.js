@@ -13,7 +13,6 @@ function(GameData, Block){
 	
 	function MountainScroller(){
 
-		this.textureList = GameData.get("tiles");
 		this.blockerList = GameData.get("blockers");
 		this.patternList = GameData.get("patterns");
 	}
@@ -54,7 +53,6 @@ function(GameData, Block){
 			type:type,
 			xPos:x,
 			yPos:container.currentAltitude + y,
-			texture:getRandomFrom(this.textureList),
 			blocker:(type == MountainScroller.BLOCKER)?getRandomFrom(this.blockerList):null
 		});
 

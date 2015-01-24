@@ -17,14 +17,14 @@ function(DisplayObject, GameData){
 		this.height = this.dataHeight = tileSize;
 		this.x = props.xPos * tileSize;
 		this.y = -props.yPos * tileSize;
-		this.loadBitmap("media/images/gameplay/tiles/"+props.texture.url);
+		this.loadBitmap("media/images/gameplay/tiles/tile"+((props.blocker)?"_blocked":"")+(Math.ceil(Math.random()*4))+".png");
 
 		if(props.blocker){
 			this.blocker = new DisplayObject({
 				name:"blocker",
 				data:"media/images/gameplay/blockers/"+props.blocker.url,
-				x:props.blocker.xOffset,
-				y:props.blocker.yOffset
+				x:this.x + props.blocker.xOffset,
+				y:this.x + props.blocker.yOffset
 			});
 		}
 	}

@@ -24,12 +24,19 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 
 		this.lanes = [[], []];
 
+		this.wrapper = new DisplayObject({
+			width:512
+		});
+		this.addChild(this.wrapper);
+
 		this.backLayer = new DisplayObject();
-		this.addChild(this.backLayer);
+		this.wrapper.addChild(this.backLayer);
 		this.tileLayer = new DisplayObject();
-		this.addChild(this.tileLayer);
+		this.wrapper.addChild(this.tileLayer);
 		this.decorationLayer = new DisplayObject();
-		this.addChild(this.decorationLayer);
+		this.wrapper.addChild(this.decorationLayer);
+
+		this.wrapper.dock((this.index == 0)?1:0, null);
 	}
 
 	Arstider.Inherit(Camera, DisplayObject);
@@ -45,7 +52,8 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 
 	Camera.prototype.addPlayer = function(player){
 		this.target = player;
-		this.addChild(this.target);
+		player.level = this;
+		this.decorationLayer.addChild(this.target);
 		this.travel();
 
 		Events.bind("turnEnd", this.travel.bind(this));

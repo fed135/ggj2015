@@ -2,6 +2,8 @@ define("screens/gameplay",
 [
 	"Arstider/Background",
 	"Arstider/DisplayObject",
+	"Arstider/Shape",
+	"Arstider/Gradient",
 	"Arstider/Events",
 
 	"managers/CameraManager",
@@ -12,7 +14,7 @@ define("screens/gameplay",
 	"entities/Player",
 	"entities/HUD"
 ], 
-function(Background, DisplayObject, Events, CameraManager, MountainScroller, PlayerController, TurnManager, Player, HUD){
+function(Background, DisplayObject, Shape, Gradient, Events, CameraManager, MountainScroller, PlayerController, TurnManager, Player, HUD){
 	var thisRef;
 
 	function resolvePlayerActions(){
@@ -35,7 +37,15 @@ function(Background, DisplayObject, Events, CameraManager, MountainScroller, Pla
 			//Number of players hard-coded here. Could easily be dynamic
 			this.numberOfPlayers = 2;
 			
-			Background.loadBitmap("media/images/gameplay/bg.jpg");
+			Background.killBuffer();
+			var bgGradient = new Gradient();
+			bgGradient.addColor(0, "#4bb5ff");
+			bgGradient.addColor(1, "#afdeff");
+			Background.addChild(new Shape({
+				fillStyle:bgGradient.pattern,
+				width:1680,
+				height:1050
+			}));
 			
 			CameraManager.splitScreen(this, this.numberOfPlayers);
 			PlayerController.init(this.numberOfPlayers);
