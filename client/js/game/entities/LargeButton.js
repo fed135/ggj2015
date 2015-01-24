@@ -2,20 +2,16 @@ define("entities/LargeButton", ["Arstider/commons/Button", "Arstider/Dictionary"
 	
 	function LargeButton(props){
 		var tmp = Arstider.clone(props);
+		tmp.label = Dictionary.translate(props.string);
+		tmp.font = props.font || "btnLargeFont";
 		tmp.states = {
 			normal:{
-				label: Dictionary.translate(props.string),
-				font: props.font || "btnLargeFont",
 				data: "media/images/buttons/btnLarge.png"
 			},
 			hover:{
-				label: Dictionary.translate(props.string),
-				font: props.font || "btnLargeFont",
 				data: "media/images/buttons/btnLargeHover.png"
 			},
 			pressed:{
-				label: Dictionary.translate(props.string),
-				font: props.font || "btnLargeFont",
 				data: "media/images/buttons/btnLargePress.png"
 			}
 		};

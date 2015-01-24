@@ -18,9 +18,9 @@ define([],
 	// Buttons
 
 	"PLAY": "PLAY",
+	"MORE_OPT": "MORE OPTIONS",
 	"NEW_GAME": "NEW GAME",
 	"CONTINUE": "CONTINUE",
-	"SPIN": "SPIN",
 	"YES": "YES",
 	"NO": "NO",
 

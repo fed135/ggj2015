@@ -5,7 +5,6 @@ define("screens/title",
 	"Arstider/Events",
 	"Arstider/Background",
 	"Arstider/DisplayObject",
-	"Arstider/Shape",
 	"Arstider/Dictionary",
 	"Arstider/Tween",
 	"Arstider/Easings",
@@ -13,9 +12,9 @@ define("screens/title",
 	"Arstider/Sound",
 	// List sdk custom entities here...
 	"entities/LargeButton",
-	"screens/chooseOptions"
+	"entities/Overlay"
 ],
-function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, GameData, Sound, LargeButton, chooseOptions)
+function(Events, Background, DisplayObject, Dictionary, Tween, Easings, GameData, Sound, LargeButton, Overlay)
 {	
 	/**
     * Returns an object to be mixed-in to a screen class object. Methods are rescoped so that the 'this' keyword refers to the screen. 
@@ -33,7 +32,7 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 
 			// Screen assets
 
-			/*this.property = new DisplayObject({
+			this.property = new DisplayObject({
 				name: "property",
 				data: "media/locale/property.png",
 				x: 212,
@@ -49,7 +48,7 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 				y: 250
 			});
 			this.addChild(this.logo);
-			this.logo.dock(0.5, null);*/
+			this.logo.dock(0.5, null);
 
 			this.btnPlay = new LargeButton({
 				name: "btnPlay",
@@ -57,27 +56,14 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 				font: "btnLargeFont",
 				scope: this,
 				x: 240,
-				y: 400,
-				alpha: 1,
+				y: 672,
+				alpha: 0,
 				callback: this.play
 			});
 			this.addChild(this.btnPlay);
 			this.btnPlay.dock(0.5, null);
-
-			this.moreOpt = new LargeButton({
-				name: "moreOpt",
-				string: "MORE_OPT",
-				font: "btnLargeFont",
-				scope: this,
-				x: 240,
-				y: 500,
-				alpha: 1,
-				callback: this.showOptions
-			});
-			this.addChild(this.moreOpt);
-			this.moreOpt.dock(0.5, null);
 				
-			/*this.btnContinue = new LargeButton({
+			this.btnContinue = new LargeButton({
 				name: "btnContinue",
 				string: "CONTINUE",
 				font: "btnLargeFont",
@@ -102,12 +88,12 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 				callback: this.showOverlay
 			});
 			this.addChild(this.btnNewGame);
-			this.btnNewGame.dock(0.3, null);*/
+			this.btnNewGame.dock(0.3, null);
 
 
 			// Overlay assets
 
-			/*this.overlay = new Overlay({
+			this.overlay = new Overlay({
 				name: "overlay",
 				x: 0,
 				y: -672,
@@ -127,32 +113,38 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 					callback: this.hideOverlay
 				}
 			});
-			this.addChild(this.overlay);*/
+			this.addChild(this.overlay);
+		},
 
-			this.optOverlay = new chooseOptions({});
-			this.optOverlay.alpha = 0;
-			this.addChild(this.optOverlay);
+		update:function()
+		{
+			console.log("SUCE MOÉ");
 		},
 		
 		// Called at the end of the preloading
 		onload:function()
-		{							
+		{			
+			if(this.firstTime == undefined || this.firstTime === "true")
+			{
+				this.playTween = new Tween(this.btnPlay, { alpha: 1, y: 445 }, 300, Easings.CIRC).play();
+				
 				this.setDefaultLocalStorage();
+			}
+			else
+			{
+				this.continueTween = new Tween(this.btnContinue, { alpha: 1, y: 445 }, 300, Easings.CIRC).play();
+				this.newGameTween = new Tween(this.btnNewGame, { alpha: 1, y: 445 }, 300, Easings.CIRC).play();
+			}
 		},
 		
 		play:function()
 		{
 			if(this.isOverlay) return;
 						
-			Events.broadcast("Engine.gotoScreen", "screens/gameplay");
+			Events.broadcast("Engine.gotoScreen", "screens/chooseLevel");
 		},
 
-		showOptions:function()
-		{
-			this.optOverlay.alpha = 1;
-		},
-
-		/*showOverlay:function()
+		showOverlay:function()
 		{
 			var thisRef = this;
 			if(this.isOverlay) return;
@@ -165,7 +157,7 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 			var thisRef = this;
 
 			this.overlayTween = new Tween(this.overlay, { y: 672 }, 400, Easings.QUAD_OUT).then(function(){ thisRef.overlay.y = -672; thisRef.isOverlay = false; }).play();
-		},*/
+		},
 
 		reset:function()
 		{
