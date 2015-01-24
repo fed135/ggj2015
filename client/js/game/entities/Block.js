@@ -16,7 +16,7 @@ function(DisplayObject, GameData){
 		this.width = this.dataWidth = tileSize;
 		this.height = this.dataHeight = tileSize;
 		this.x = props.xPos * tileSize;
-		this.y = props.yPos * tileSize;
+		this.y = -props.yPos * tileSize;
 		this.loadBitmap("media/images/gameplay/tiles/"+props.texture.url);
 
 		if(props.blocker){

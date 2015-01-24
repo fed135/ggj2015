@@ -2,6 +2,7 @@ define("screens/gameplay",
 [
 	"Arstider/Background",
 	"Arstider/DisplayObject",
+	"Arstider/Events",
 
 	"managers/CameraManager",
 	"managers/MountainScroller",
@@ -10,8 +11,18 @@ define("screens/gameplay",
 
 	"entities/Player"
 ], 
-function(Background, DisplayObject, CameraManager, MountainScroller, PlayerController, TurnManager, Player){
+function(Background, DisplayObject, Events, CameraManager, MountainScroller, PlayerController, TurnManager, Player){
 	var thisRef;
+
+	function resolvePlayerActions(){
+		var actions = TurnManager.resolveTurn(PlayerController.selectedInput)
+
+		for(var i=0; i<this.numberOfPlayers; i++){	
+			this.players[i].doAction(actions[i]);
+		}
+	}
+
+
 	//The game object
 	return {	
 
@@ -31,6 +42,9 @@ function(Background, DisplayObject, CameraManager, MountainScroller, PlayerContr
 			for(var i = 0; i<5; i++){
 				MountainScroller.generateSection(CameraManager.cameras, [[0, 0]]);
 			}
+			MountainScroller.generateSection(CameraManager.cameras);
+
+			this.players = [];
 
 			var player;
 			for(var p = 0; p<this.numberOfPlayers; p++){
@@ -38,8 +52,11 @@ function(Background, DisplayObject, CameraManager, MountainScroller, PlayerContr
 					id:p,
 					name:"Player"+p
 				});
-				CameraManager.cameras[p].addChild(player);
+				this.players.push(player);
+				CameraManager.cameras[p].addPlayer(player);
 			}
+
+			Events.bind("turnEnd", resolvePlayerActions.bind(this));
 		},
 		
 		//once assets are loaded
@@ -56,7 +73,7 @@ function(Background, DisplayObject, CameraManager, MountainScroller, PlayerContr
 		//when screen gets unloaded
 		onunload:function(){
 			
-		},
+		}
 		
 	};
 });

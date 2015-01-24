@@ -9,6 +9,7 @@ function(GameData, Block){
 	MountainScroller.CLIMBABLE = 0;
 	MountainScroller.BLOCKER = 1;
 	MountainScroller.PICKUP = 2;
+	MountainScroller.WATERFALL = 3;
 	
 	function MountainScroller(){
 
@@ -51,8 +52,6 @@ function(GameData, Block){
 			tile
 		;
 
-		console.log("Building tile TYPE: ", type, ", x:", x, ", y:", (container.currentAltitude + y));
-
 		tile = new Block({
 			type:type,
 			xPos:x,
@@ -60,6 +59,8 @@ function(GameData, Block){
 			texture:getRandomFrom(this.textureList),
 			blocker:(type == MountainScroller.BLOCKER)?getRandomFrom(this.blockerList):null
 		});
+
+		container.pushBlock(x, y, (type == MountainScroller.BLOCKER));
 
 		container.addChild(tile);
 	};

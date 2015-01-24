@@ -6,6 +6,20 @@ define("managers/TurnManager",
 ],
 function(GameData, Timer, Events){
 	
+	TurnManager.MOVE = 0;
+	TurnManager.CLIMB = 1;
+	TurnManager.DEFENCE = 2;
+	TurnManager.ATTACK = 3;
+	TurnManager.FALL = 4;
+	TurnManager.PENALTY = 5;
+
+	TurnManager.PRIORITIES = [
+		TurnManager.MOVE,
+		TurnManager.CLIMB,
+		TurnManager.DEFENCE,
+		TurnManager.ATTACK
+	];
+
 	function TurnManager(){
 		this.turnTimer;
 		this.turnDuration = GameData.get("turnDuration");	//The ammount of time you have to place your inputs
@@ -32,6 +46,27 @@ function(GameData, Timer, Events){
 		Events.broadcast("turnEnd");
 
 		setTimeout(this.startTurn.bind(this), this.turnDelay);
+	};
+
+	TurnManager.prototype.resolveTurn = function(actions){
+
+		var playerActions = [];
+
+		playerActions[0] = Arstider.checkIn(actions[0], TurnManager.PENALTY);
+		playerActions[1] = Arstider.checkIn(actions[1], TurnManager.PENALTY);
+
+		//If player made no input...
+		//Go defence ?
+
+		if(playerActions[0] == TurnManager.ATTACK && playerActions[1] != TurnManager.DEFENCE){
+			playerActions[1] == TurnManager.FALL;
+		}
+
+		if(playerActions[1] == TurnManager.ATTACK && playerActions[0] != TurnManager.DEFENCE){
+			playerActions[0] == TurnManager.FALL;
+		}
+
+		return playerActions;
 	};
 
 	return new TurnManager();

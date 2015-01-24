@@ -1,9 +1,12 @@
 define("entities/Camera",
 [
 	"Arstider/DisplayObject",
-	"Arstider/GameData"
+	"Arstider/GameData",
+	"Arstider/Events",
+	"Arstider/Tween",
+	"Arstider/Easings"
 ],
-function(DisplayObject, GameData){
+function(DisplayObject, GameData, Events, Tween, Easings){
 	
 	function Camera(props){
 		Arstider.Super(this, DisplayObject, props);
@@ -15,14 +18,66 @@ function(DisplayObject, GameData){
 			this.x = this.width*this.index;
 		};
 
-		this.travelSpeed = GameData.get("tileSize");
-	}
+		this.toCharTween = null
 
-	Camera.prototype.travel = function(num){
-		this.y += (num * this.travelSpeed);
+		this.travelSpeed = GameData.get("travelSpeed");
+
+		this.lanes = [[], []];
 	}
 
 	Arstider.Inherit(Camera, DisplayObject);
+
+	Camera.prototype.travel = function(){
+
+		if(this.toCharTween != null) this.toCharTween.kill();
+
+		var targetY = ((this.height - this.target.height) *0.5) - this.target.y;
+
+		this.toCharTween = new Tween(this, {y : targetY}, this.travelSpeed, Easings.QUAD_IN_OUT).play();
+	};
+
+	Camera.prototype.addPlayer = function(player){
+		this.target = player;
+		this.addChild(this.target);
+		this.travel();
+
+		Events.bind("turnEnd", this.travel.bind(this));
+	};
+
+	Camera.prototype.pushBlock = function(x, y, isBlocker){
+		this.lanes[x].length = y;
+		if(isBlocker) this.lanes[x][y] = 1;
+	};
+
+	Camera.prototype.isBlocker = function(x, y){
+		return (this.lanes[x] && this.lanes[x].length >= y && this.lanes[x][y] == 1);
+	};
+
+	Camera.prototype.checkNextBlocker = function(x, y, max){
+
+		var
+			i = y,
+			len = Math.min(this.lanes[x].length, y+max)
+		;
+
+		for(; i<len;i++){
+			if(this.lanes[x][y] == 1 || (i-y > max)){
+				break;
+			}
+		}
+
+		return i - y;
+	};
+
+	Camera.prototype.checkPreviousBlocker = function(x, y){
+		for(var i = y; i>=0; i--){
+			if(this.lanes[x][y] == 1){
+				break;
+			}
+		}
+
+		return y - i;
+	};
 
 	return Camera;
 });

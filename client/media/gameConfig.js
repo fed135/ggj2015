@@ -1,27 +1,36 @@
 define([], {
 
 	tileSize:128,
+	travelSpeed: 500,
+	climbTiles:2,
 
 	/*	Local mode game playerControlls	*/
 	playerControlls:[
 
 		/*	Player 1	*/
 		[
-			{key:"q", action:"move1"},
-			{key:"w", action:"move2"},
-			{key:"a", action:"move3"},
-			{key:"s", action:"move4"},
-			{key:"d", action:"move5"}
+			{key:"q", action:0},
+			{key:"w", action:1},
+			{key:"a", action:2},
+			{key:"s", action:3}
 		],
 
 		/*	Player 2	*/
 		[
-			{key:"up", action:"move1"},
-			{key:"down", action:"move2"},
-			{key:"left", action:"move3"},
-			{key:"right", action:"move4"},
-			{key:"l", action:"move5"}
+			{key:"up", action:0},
+			{key:"down", action:1},
+			{key:"left", action:2},
+			{key:"right", action:3}
 		]
+	],
+
+	actions:[
+		{name: "move", message:"is doing zig-zags!"},
+		{name: "climb", message:"is going for the top!"},
+		{name: "defence", message:"is a chicken. Coo coo ka cha. Coo coo ka choo!"},
+		{name: "attack", message:"is a savage beast!"},
+		{name: "fall", message:"is falling towards possible knee injuries!"},
+		{name: "penalty", message:"is gazing at the clouds..."}
 	],
 
 	turnDuration: 3000,
