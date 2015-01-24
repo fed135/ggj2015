@@ -27,8 +27,13 @@ function(Events, Background, DisplayObject, Dictionary, Tween, Easings, GameData
 		init:function()
 		{
 			
-			// Set screen background
-			Background.loadBitmap("media/images/screens/title/bg.jpg");
+			this.bg = new Shape({
+				width:1680,
+				height:1050,
+				fillStyle:"black",
+				alpha: 0.8
+			});
+			this.addChild(this.bg);
 
 			// Screen assets
 
