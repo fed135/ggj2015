@@ -136,7 +136,7 @@ function(Events, Background, DisplayObject, Dictionary, Tween, Easings, GameData
 		{
 			if(this.isOverlay) return;
 						
-			Events.broadcast("Engine.gotoScreen", "screens/chooseLevel");
+			Events.broadcast("Engine.gotoScreen", "screens/gameplay");
 		},
 
 		showOverlay:function()
