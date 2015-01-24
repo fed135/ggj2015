@@ -20,10 +20,10 @@ function(Viewport, DisplayObject, Camera){
 
 		for(;i<sections;i++){
 			cam = new Camera({
-				fillX:1/sections,
-				fillY:1,
 				index:i
 			});
+
+			cam.fill(1/sections, 1);
 
 			gamescene.addChild(cam);
 			this.cameras.push(cam);
