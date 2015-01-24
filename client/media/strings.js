@@ -46,7 +46,7 @@ define([],
 
 	// Pause
 
-	"PAUSE_TITLE": "PAUSE SCREEN",
+	"PAUSE_TITLE": "PAUSE",
 
 	// Win
 

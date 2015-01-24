@@ -69,5 +69,15 @@ define([], {
 		"fillStyle": "#3764FA",
 		"lineSpacing": 28,
 		"textAlign": "center"
+	},
+	"pauseTitleFont":
+	{
+		"family": "Arial Black",
+		"size": "100px",
+		"fontOffsetY": 20,
+		"fillStyle": "#3764FA",
+		"strokeStyle": "#EDEDED",
+		"lineWidth":5,
+		"textAlign": "center"
 	}
 });

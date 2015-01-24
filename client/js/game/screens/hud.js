@@ -20,7 +20,13 @@ function(Events, Background, DisplayObject, Dictionary, Tween, Easings, GameData
 	    * Returns an object to be mixed-in to a screen class object. Methods are rescoped so that the 'this' keyword refers to the screen. 
 	    */
 
-		// You can define screen properties, in this case, is an overlay is visible
+		/*this.bg = new Shape({
+			width:1680,
+			height:1050,
+			fillStyle:"black",
+			alpha: 0.8
+		});
+		this.addChild(this.bg);*/
 
 		// Screen assets
 		this.btnPause = new DisplayObject({
@@ -38,7 +44,8 @@ function(Events, Background, DisplayObject, Dictionary, Tween, Easings, GameData
 	};
 
 	function pause(){
-		console.log("PAUSE GAME MOFOCKA");
+		this.saveStateAs("currentGameplay");
+		Events.broadcast("Engine.gotoScreen", "screens/pause");
 	}
 
 	Arstider.Inherit(hud, DisplayObject);
