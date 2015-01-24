@@ -23,5 +23,34 @@ define([], {
 	],
 
 	turnDuration: 3000,
-	turnDelay:1000
+	turnDelay:1000,
+
+	tiles:[
+		{
+			url: "tile1.png"
+		}
+	],
+
+	blockers:[
+		{
+			url: "tree1.png",
+			xOffset:0,
+			yOffset:0
+		}
+	],
+
+	patterns:[
+		[
+			[0, 0],
+			[0, 0],
+			[0, 1],
+			[0, 0],
+			[0, 0],
+			[0, 1],
+			[0, 0],
+			[1, 0],
+			[2, 0]
+		]
+
+	]
 });

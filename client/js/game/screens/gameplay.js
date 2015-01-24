@@ -26,7 +26,9 @@ function(Background, DisplayObject, CameraManager, MountainScroller, PlayerContr
 			CameraManager.splitScreen(this, this.numberOfPlayers);
 			PlayerController.init(this.numberOfPlayers);
 			//MountainScroller;
-					
+			for(var i = 0; i<5; i++){
+				MountainScroller.generateSection(CameraManager.cameras, MountainScroller.paddingSection);
+			}
 		},
 		
 		//once assets are loaded
