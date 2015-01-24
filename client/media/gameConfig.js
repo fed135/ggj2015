@@ -1,6 +1,6 @@
 define([], {
 
-	tileSize:128,
+	tileSize:256,
 	travelSpeed: 500,
 	climbTiles:2,
 

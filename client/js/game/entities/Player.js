@@ -30,6 +30,8 @@ function(DisplayObject, Shape, GameData){
 		this.lane = 0;
 
 		this.altitude = 0;
+
+		this.x += ((tileSize - this.width)*0.5);
 	}
 
 	Arstider.Inherit(Player, DisplayObject);
@@ -67,8 +69,8 @@ function(DisplayObject, Shape, GameData){
 	Player.prototype.move = function(msg){
 		console.log(this.name + " " + msg);
 
-		var canGo = this.parent.isBlocker((this.lane == 0)?1:0, this.altitude+1);
-		if(!canGo) return;
+		var isBlocked = this.parent.isBlocker((this.lane == 0)?1:0, this.altitude+1);
+		if(isBlocked) return;
 
 		if(this.lane == 0){
 			this.lane = 1;

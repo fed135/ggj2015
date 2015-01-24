@@ -23,6 +23,13 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 		this.travelSpeed = GameData.get("travelSpeed");
 
 		this.lanes = [[], []];
+
+		this.backLayer = new DisplayObject();
+		this.addChild(this.backLayer);
+		this.tileLayer = new DisplayObject();
+		this.addChild(this.tileLayer);
+		this.decorationLayer = new DisplayObject();
+		this.addChild(this.decorationLayer);
 	}
 
 	Arstider.Inherit(Camera, DisplayObject);
@@ -44,7 +51,9 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 		Events.bind("turnEnd", this.travel.bind(this));
 	};
 
-	Camera.prototype.pushBlock = function(x, y, isBlocker){
+	Camera.prototype.pushBlock = function(tile, x, y, isBlocker){
+		this.tileLayer.addChild(tile);
+		if(tile.blocker) this.decorationLayer.addChild(tile.blocker);
 		this.lanes[x].length = y;
 		if(isBlocker) this.lanes[x][y] = 1;
 	};

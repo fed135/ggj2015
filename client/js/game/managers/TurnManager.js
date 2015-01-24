@@ -35,7 +35,7 @@ function(GameData, Timer, Events){
 		this.currentTurn++;
 
 		console.log("Turn ", this.currentTurn);
-		Events.broadcast("turnStart");
+		Events.broadcast("turnStart", this.turnDuration);
 
 		this.turnTimer = new Timer(this.endTurn.bind(this), this.turnDuration);
 	};

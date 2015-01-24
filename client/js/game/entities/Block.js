@@ -20,12 +20,12 @@ function(DisplayObject, GameData){
 		this.loadBitmap("media/images/gameplay/tiles/"+props.texture.url);
 
 		if(props.blocker){
-			this.addChild(new DisplayObject({
+			this.blocker = new DisplayObject({
 				name:"blocker",
 				data:"media/images/gameplay/blockers/"+props.blocker.url,
 				x:props.blocker.xOffset,
 				y:props.blocker.yOffset
-			}));
+			});
 		}
 	}
 

@@ -9,9 +9,10 @@ define("screens/gameplay",
 	"managers/PlayerController",
 	"managers/TurnManager",
 
-	"entities/Player"
+	"entities/Player",
+	"entities/HUD"
 ], 
-function(Background, DisplayObject, Events, CameraManager, MountainScroller, PlayerController, TurnManager, Player){
+function(Background, DisplayObject, Events, CameraManager, MountainScroller, PlayerController, TurnManager, Player, HUD){
 	var thisRef;
 
 	function resolvePlayerActions(){
@@ -56,6 +57,10 @@ function(Background, DisplayObject, Events, CameraManager, MountainScroller, Pla
 				CameraManager.cameras[p].addPlayer(player);
 			}
 
+			this.hud = new HUD()
+			this.addChild(this.hud);
+
+			Events.bind("turnStart", this.hud.updateBarFill.bind(this.hud));
 			Events.bind("turnEnd", resolvePlayerActions.bind(this));
 		},
 		

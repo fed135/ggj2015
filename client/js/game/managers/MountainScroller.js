@@ -27,8 +27,6 @@ function(GameData, Block){
 			tile
 		;
 
-		console.log("generating sections with pattern ", pattern);
-
 		for(;i<views.length;i++){
 			if(!pattern){
 				pattern = getRandomFrom(this.patternList);
@@ -60,9 +58,7 @@ function(GameData, Block){
 			blocker:(type == MountainScroller.BLOCKER)?getRandomFrom(this.blockerList):null
 		});
 
-		container.pushBlock(x, y, (type == MountainScroller.BLOCKER));
-
-		container.addChild(tile);
+		container.pushBlock(tile, x, y, (type == MountainScroller.BLOCKER));
 	};
 
 
