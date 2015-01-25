@@ -83,7 +83,7 @@ define([], {
 	"resultFont":
 	{
 		"url": "media/fonts/RobbieRocketpants.woff",
-		"size": "80px",
+		"size": "100px",
 		"fontOffsetY": 20,
 		"fillStyle": "#3764FA",
 		"strokeStyle": "#EDEDED",

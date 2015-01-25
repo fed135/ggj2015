@@ -128,7 +128,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 			thisRef.level.skipTravel = true;
 			var sumTween = new Tween(thisRef, {y:playerPos - 420, x:thisRef.x+xTarget}, thisRef.climbSpeed*0.5, Easings.QUAD_OUT).then({y:playerPos-280}, thisRef.climbSpeed*0.3, Easings.QUAD_IN).play();
 		}, 125);
-		this.parent.parent.parent.parent.hud.result();
+		
 	};
 
 	Player.prototype.getPickup = function(block){

@@ -108,6 +108,7 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 				else{
 					console.error("Dafuk happenned");
 				}
+				this.players[0].parent.parent.parent.parent.hud.result();
 			}
 		}
 	};

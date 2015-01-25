@@ -8,6 +8,7 @@ define("screens/gameplay",
 	"Arstider/Sound",
 	"Arstider/Tween",
 	"Arstider/Easings",
+	"Arstider/GameData",
 
 	"managers/CameraManager",
 	"managers/MountainScroller",
@@ -17,7 +18,7 @@ define("screens/gameplay",
 	"entities/Player",
 	"entities/HUD"
 ], 
-function(Background, DisplayObject, Shape, Gradient, Events, Sound, Tween, Easings, CameraManager, MountainScroller, PlayerController, TurnManager, Player, HUD){
+function(Background, DisplayObject, Shape, Gradient, Events, Sound, Tween, Easings, GameData, CameraManager, MountainScroller, PlayerController, TurnManager, Player, HUD){
 	var thisRef;
 
 	function resolvePlayerActions(){
@@ -112,6 +113,7 @@ function(Background, DisplayObject, Shape, Gradient, Events, Sound, Tween, Easin
 			Sound.stop();
 			//Sound.play("gameplayA");
 			//Sound.play("gameplayB",{volume:0});
+			GameData.set("menuStarted",false);
 			Sound.play("gameplayC");
 
 			//Countdown before startTurn
