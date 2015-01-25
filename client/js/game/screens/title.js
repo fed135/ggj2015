@@ -253,7 +253,7 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 		{
 			if(this.isOverlay) return;
 						
-			Events.broadcast("Engine.gotoScreen", "screens/gameplay");
+			Events.broadcast("Engine.gotoScreen", "screens/htp");
 		},
 
 		showOptions:function()
