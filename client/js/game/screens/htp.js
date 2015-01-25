@@ -9,9 +9,10 @@ define("screens/htp",
 	"Arstider/Easings",
 	"Arstider/Browser",
 	"Arstider/GameData",
-	"Arstider/Viewport"
+	"Arstider/Viewport",
+	"Arstider/Keyboard"
 ],
-function(Events, Background, DisplayObject, TextField, Dictionary, Tween, Easings, Browser, GameData, Viewport){
+function(Events, Background, DisplayObject, TextField, Dictionary, Tween, Easings, Browser, GameData, Viewport, Keyboard){
 
 	return {
 		
@@ -26,7 +27,7 @@ function(Events, Background, DisplayObject, TextField, Dictionary, Tween, Easing
 
 			this.bg = new DisplayObject({
 				name: "bg",
-				data:"media/images/screens/story/page1.jpg"
+				data:"media/images/screens/htp/page1.jpg"
 			});
 			this.addChild(this.bg);
 
@@ -99,6 +100,8 @@ function(Events, Background, DisplayObject, TextField, Dictionary, Tween, Easing
 				onleave:function(){this.loadBitmap("media/images/buttons/btnQuit.png");}
 			});
 			this.hudRight.addChild(this.btnQuit);*/
+
+			Keyboard.bind("space", "up",this.nextPage.bind(this));
 		},
 
 		onload:function(){
