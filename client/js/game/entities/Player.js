@@ -8,9 +8,11 @@ define("entities/Player",
 	"Arstider/TextField",
 
 	"Arstider/Tween",
-	"Arstider/Easings"
+	"Arstider/Easings",
+
+	"Arstider/BitmapAnimation"
 ],
-function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings){
+function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings, Sprite){
 	
 	function Player(props){
 		Arstider.Super(this, DisplayObject, props);
@@ -35,6 +37,19 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings){
 			alpha:0.7
 		});
 		this.addChild(this.debugShape);
+
+		console.log("Player index :", this.index);
+
+		this.sprite = new Sprite({
+			x:-104,
+			y:-82,
+			spritesheet:"media/images/gameplay/spritesheets/p"+(parseInt(this.index)+1),
+			speed:0.32
+		});
+		this.addChild(this.sprite);
+
+		this.scaleX = (this.index == 0)?1:-1,
+		this.rpX = 1;
 
 		this.numPickups = 0;
 
@@ -71,12 +86,17 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings){
 		//console.log(Arstider.findElement("tile_"+this.lane+"_"+this.altitude));
 	};
 
+	Player.prototype.returnToIdle = function(){
+		this.sprite.gotoAnim("idle");
+	};
+
 
 	//////Actions
 
 	Player.prototype.climb= function(callback){
 
 		//Check if can go up by 
+		this.sprite.gotoAnim("climb");
 
 		//Max dist
 		var numTiles = this.climbDist;
@@ -86,7 +106,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings){
 
 		this.level.travel(this.level.y + (numTiles * this.moveDist));
 		this.level.skipTravel = true;
-		var sumTween = new Tween(this, {y:this.y - (numTiles * this.moveDist)}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).play();
+		var sumTween = new Tween(this, {y:this.y - (numTiles * this.moveDist)}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).then(this.returnToIdle.bind(this)).play();
 		this.altitude += numTiles;
 
 		//Pickup check
@@ -118,6 +138,9 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings){
 
 		var isBlocked = this.level.isBlocker((this.lane == 0)?1:0, this.altitude+1);
 		var direction;
+
+		this.sprite.gotoAnim("climb");
+
 		if(isBlocked) return;
 
 		if(this.lane == 0){
@@ -129,7 +152,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings){
 			direction = this.x - this.moveDist;
 		}
 
-		var sumTween = new Tween(this, {y:this.y - this.moveDist, x:direction}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).play();
+		var sumTween = new Tween(this, {y:this.y - this.moveDist, x:direction}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).then(this.returnToIdle.bind(this)).play();
 		this.level.travel(this.level.y + this.moveDist);
 		this.level.skipTravel = true;
 		this.altitude += 1;
@@ -138,6 +161,8 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings){
 	Player.prototype.defence = function(callback){
 		//Defence anim
 
+		//this.sprite.gotoAnim("defence");
+
 		callback();
 	};
 
@@ -145,6 +170,9 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings){
 
 		//Attack anim
 		if(this.numPickups > 0){
+
+			this.sprite.gotoAnim("attack"+((this.index==0)?"R":"L"));
+
 			this.numPickups--;
 
 			var thisRef = this;
@@ -181,6 +209,8 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings){
 	};
 
 	Player.prototype.fall = function(callback){
+
+		//this.sprite.gotoAnim("fall");
 
 		var fallDist = this.level.checkPreviousBlocker(this.lane, this.altitude);
 
