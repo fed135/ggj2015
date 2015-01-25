@@ -3,6 +3,7 @@ define("screens/htp",
 	"Arstider/Events",
 	"Arstider/Background",
 	"Arstider/DisplayObject",
+	"Arstider/BitmapAnimation",
 	"Arstider/TextField",
 	"Arstider/Dictionary",
 	"Arstider/Tween",
@@ -12,7 +13,7 @@ define("screens/htp",
 	"Arstider/Viewport",
 	"Arstider/Keyboard"
 ],
-function(Events, Background, DisplayObject, TextField, Dictionary, Tween, Easings, Browser, GameData, Viewport, Keyboard){
+function(Events, Background, DisplayObject, BitmapAnimation, TextField, Dictionary, Tween, Easings, Browser, GameData, Viewport, Keyboard){
 
 	return {
 		
@@ -30,6 +31,15 @@ function(Events, Background, DisplayObject, TextField, Dictionary, Tween, Easing
 				data:"media/images/screens/htp/page1.jpg"
 			});
 			this.addChild(this.bg);
+
+			this.bar = new BitmapAnimation({
+				name: "bar",
+				x:25,
+				y:200,
+				spritesheet:"media/images/gameplay/spritesheets/p1"/*,
+            	speed:0.32*/
+			});
+			this.addChild(this.bar);
 
 			/*this.textContainer = new DisplayObject({
 				width:400,
