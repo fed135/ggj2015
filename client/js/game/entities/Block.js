@@ -23,8 +23,8 @@ function(DisplayObject, GameData){
 			this.blocker = new DisplayObject({
 				name:"blocker",
 				data:"media/images/gameplay/blockers/"+props.blocker.url,
-				x:this.x + props.blocker.xOffset,
-				y:this.y + props.blocker.yOffset
+				x:this.x + (-24 + (Math.random()*24)),
+				y:this.y + (-24 + (Math.random()*24))
 			});
 		}
 

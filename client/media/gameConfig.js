@@ -8,7 +8,7 @@ define([], {
 	preThrowDelay:150,
 	numSpins:3,
 
-	maxLevel:12,
+	maxLevel:120,
 
 	/*	Local mode game playerControlls	*/
 	playerControlls:[
@@ -50,9 +50,49 @@ define([], {
 
 	blockers:[
 		{
-			url: "blocker1.png",
-			xOffset:0,
-			yOffset:0
+			url: "arbre_01.png"
+		},
+		{
+			url: "arbre_02.png"
+		},
+		{
+			url: "arbre_03.png"
+		},
+		{
+			url: "arbre_04.png"
+		},
+		{
+			url: "arbre_05.png"
+		},
+		{
+			url: "arbre_06.png"
+		},
+		{
+			url: "arbre_07.png"
+		},
+		{
+			url: "arbre_08.png"
+		},
+		{
+			url: "arbre_09.png"
+		},
+		{
+			url: "roche_01.png"
+		},
+		{
+			url: "roche_02.png"
+		},
+		{
+			url: "roche_03.png"
+		},
+		{
+			url: "roche_04.png"
+		},
+		{
+			url: "roche_05.png"
+		},
+		{
+			url: "roche_06.png"
 		}
 	],
 

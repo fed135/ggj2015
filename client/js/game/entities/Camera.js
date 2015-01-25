@@ -27,7 +27,8 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 		this.topSpawned = false;
 
 		this.wrapper = new DisplayObject({
-			width:512
+			width:527,
+			x:(this.index == 0)?0:15
 		});
 		this.addChild(this.wrapper);
 

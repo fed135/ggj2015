@@ -36,7 +36,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings, Spri
 			fillStyle:"red",
 			alpha:0.7
 		});
-		this.addChild(this.debugShape);
+		//this.addChild(this.debugShape);
 
 		console.log("Player index :", this.index);
 
@@ -69,7 +69,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings, Spri
 		});
 
 		this.debugLocation.setFont("scoreFont", {fillStyle:"white"});
-		this.addChild(this.debugLocation);
+		//this.addChild(this.debugLocation);
 	}
 
 	Arstider.Inherit(Player, DisplayObject);
