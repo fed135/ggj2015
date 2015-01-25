@@ -152,6 +152,11 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 
 		this.sprite.gotoAnim("climb");
 
+		var curveType = Easings.QUAD_IN;
+		if(this.level.isBlocker(this.lane, this.altitude+1)){
+			curveType = Easings.QUAD_OUT;
+		}
+
 		if(this.lane == 0){
 			this.lane = 1;
 			direction = this.x + this.moveDist;
@@ -163,8 +168,10 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 
 		//Sound.play("climb"+Math.floor((Math.random() * 2) + 1));
 
+
+
 		var sumTween = new Tween(this, {x:direction}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).play();
-        var sumTween2 = new Tween(this, {y:this.y - this.moveDist}, this.climbSpeed, Easings.QUAD_IN).then(callback).then(this.returnToIdle.bind(this)).play();
+        var sumTween2 = new Tween(this, {y:this.y - this.moveDist}, this.climbSpeed, curveType).then(callback).then(this.returnToIdle.bind(this)).play();
 		this.level.travel(this.level.y + this.moveDist);
 		this.level.skipTravel = true;
 		this.altitude += 1;

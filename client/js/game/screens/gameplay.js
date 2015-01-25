@@ -72,6 +72,11 @@ function(Background, DisplayObject, Shape, Gradient, Events, Sound, CameraManage
 				this.players.push(player);
 				CameraManager.cameras[p].addPlayer(player);
 
+				if(p == 1){
+					player.lane = 1;
+					player.x += 256;
+				}
+
 				//Add startingGrass
 				ground = new DisplayObject({
 					name:"ground",
