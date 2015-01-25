@@ -2,7 +2,10 @@ define([],{
 	/*Longer, individual songs/ tracks - no more than one of these can play at a given time*/
 	"tracks":{
 		/*menu bgm track*/
-		//"menu":				{"files":["media/music/menu.mp3", "media/music/menu.ogg"], "loop":true},
+		"menu":				{"files":["media/music/menu.mp3"], "loop":true},
+		"gameplayA":				{"files":["media/music/gameplayA.mp3"], "loop":true},
+		"gameplayB":				{"files":["media/music/gameplayB.mp3"], "loop":true},
+		"gameplayC":				{"files":["media/music/gameplayC.mp3"], "loop":true}
 	},
 	/*SFX files - go crazy!*/
 	"sounds":{
