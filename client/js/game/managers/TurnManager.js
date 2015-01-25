@@ -15,6 +15,7 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 	TurnManager.ATTACK = 3;
 	TurnManager.FALL = 4;
 	TurnManager.PENALTY = 5;
+	TurnManager.ATTACK_AND_FALL = 6;
 
 	TurnManager.PRIORITIES = [
 		TurnManager.MOVE,
@@ -120,12 +121,22 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 		//If player made no input...
 		//Go defence ?
 
-		if(actions[0] == TurnManager.ATTACK && actions[1] != TurnManager.DEFENCE && this.players[0].numPickups > 0){
-			actions[1] = TurnManager.FALL;
+		if((actions[0] == TurnManager.ATTACK || actions[0] == TurnManager.ATTACK_AND_FALL) && actions[1] != TurnManager.DEFENCE && this.players[0].numPickups > 0){
+			if(actions[1] == TurnManager.ATTACK || actions[1] == TurnManager.ATTACK_AND_FALL){
+				actions[1] = TurnManager.ATTACK_AND_FALL;
+			}
+			else{
+				actions[1] = TurnManager.FALL;
+			}
 		}
 
-		if(actions[1] == TurnManager.ATTACK && actions[0] != TurnManager.DEFENCE && this.players[1].numPickups > 0){
-			actions[0] = TurnManager.FALL;
+		if((actions[1] == TurnManager.ATTACK || actions[1] == TurnManager.ATTACK_AND_FALL) && actions[0] != TurnManager.DEFENCE && this.players[1].numPickups > 0){
+			if(actions[0] == TurnManager.ATTACK || actions[0] == TurnManager.ATTACK_AND_FALL){
+				actions[0] = TurnManager.ATTACK_AND_FALL;
+			}
+			else{
+				actions[0] = TurnManager.FALL;
+			}
 		}
 
 		return actions;
