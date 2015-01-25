@@ -9,7 +9,7 @@ define("entities/HUD",
 function(DisplayObject, Shape, Tween, Easings, Viewport){
 	
 	function HUD(){
-		Arstider.Super(this, DisplayObject);
+		Arstider.Super(this, DisplayObject)
 
 		this.turnBar = new Shape({
 			height:20,
@@ -20,9 +20,9 @@ function(DisplayObject, Shape, Tween, Easings, Viewport){
 
 		this.fill(1,1);
 
-		this.turnBar.dock(null, 1);
+		//this.turnBar.dock(null, 0.5);
 
-		this.addChild(this.turnBar);
+		//this.addChild(this.turnBar);
 
 		this.turnBarTween;
 	}	
@@ -30,8 +30,9 @@ function(DisplayObject, Shape, Tween, Easings, Viewport){
 	Arstider.Inherit(HUD, DisplayObject);
 
 	HUD.prototype.updateBarFill = function(time){
+		this.turnBar.width = Viewport.visibleWidth;
 		if(this.turnBarTween) this.turnBarTween.kill();
-
+		console.log(this.turnBar.width);
 		this.turnBarTween = new Tween(this.turnBar, {width:0}, time).play();
 	};
 

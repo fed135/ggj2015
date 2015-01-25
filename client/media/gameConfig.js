@@ -9,16 +9,16 @@ define([], {
 
 		/*	Player 1	*/
 		[
-			{key:"q", action:0},
+			{key:"s", action:0},
 			{key:"w", action:1},
-			{key:"a", action:2},
-			{key:"s", action:3}
+			{key:"d", action:2},
+			{key:"a", action:3}
 		],
 
 		/*	Player 2	*/
 		[
-			{key:"up", action:0},
-			{key:"down", action:1},
+			{key:"down", action:0},
+			{key:"up", action:1},
 			{key:"left", action:2},
 			{key:"right", action:3}
 		]

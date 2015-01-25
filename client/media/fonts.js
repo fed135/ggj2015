@@ -79,5 +79,15 @@ define([], {
 		"strokeStyle": "#EDEDED",
 		"lineWidth":5,
 		"textAlign": "center"
+	},
+	"resultFont":
+	{
+		"family": "Arial Black",
+		"size": "80px",
+		"fontOffsetY": 20,
+		"fillStyle": "#3764FA",
+		"strokeStyle": "#EDEDED",
+		"lineWidth":5,
+		"textAlign": "center"
 	}
 });
