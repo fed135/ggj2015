@@ -159,7 +159,14 @@ function(Background, DisplayObject, Shape, Gradient, Events, Sound, Tween, Easin
 		
 		//when screen gets unloaded
 		onunload:function(){
-			
+			console.log("Need to mass unbind everything");
+
+			Events.unbind("turnEnd");
+			Events.unbind("turnStart");
+			Events.unbind("playerInput");
+			Events.unbind("playerReady");
+
+			thisRef = null;
 		}
 		
 	};
