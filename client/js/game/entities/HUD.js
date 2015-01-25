@@ -104,6 +104,28 @@ function(DisplayObject, RingFiller, GameData, Tween, Events, Easings, Viewport){
 		this.turnBarTween;
 		Events.bind("turnStart", this.updatePlayersPos.bind(this));
 		Events.bind("turnEnd", this.stopBarProgress.bind(this));
+		Events.bind("turnStart", this.updatePickaxes.bind(this));
+		Events.bind("turnEnd", this.updatePickaxes.bind(this));
+
+		this.redPickaxes = [];
+		this.bluePickaxes = [];
+		var shizzle = 0;
+		for (var i = 0; i < 6; i++) {
+			if(i%3 == 0)shizzle++;
+			var pickax = new DisplayObject({
+				name: "pickax",
+				data:"media/images/screens/hud/pick_ui_empty.png",
+				x: (i>=3)?1480:80,
+				y: 60 - 135 * (i - 3*shizzle)
+			});
+			this.addChild(pickax);
+
+			if(i>=3){
+				this.redPickaxes.push(pickax);
+			}else{
+				this.bluePickaxes.push(pickax);
+			}
+		};
 	}	
 
 
@@ -135,6 +157,25 @@ function(DisplayObject, RingFiller, GameData, Tween, Events, Easings, Viewport){
 	HUD.prototype.stopBarProgress = function(){
 		if(this.turnBarTween) this.turnBarTween.kill();
 		this.turnBar.alpha = 0.5;
+	};
+
+	HUD.prototype.updatePickaxes = function(){
+		var p1Ammo = this.parent.players[0].numPickups;
+		var p2Ammo = this.parent.players[1].numPickups;
+		
+		for (var i = 0; i < 3; i++) {
+			if(i < p1Ammo){
+				this.bluePickaxes[i].loadBitmap("media/images/screens/hud/pick_ui_blue.png")
+			}else{
+				this.bluePickaxes[i].loadBitmap("media/images/screens/hud/pick_ui_empty.png")
+			}
+			if(i < p2Ammo){
+				this.redPickaxes[i].loadBitmap("media/images/screens/hud/pick_ui_red.png")
+			}else{
+				this.redPickaxes[i].loadBitmap("media/images/screens/hud/pick_ui_empty.png")
+
+			}
+		};
 	};
 
 	return HUD;
