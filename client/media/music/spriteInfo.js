@@ -6,16 +6,16 @@ define([],{
 		"gameplayA":		{"files":["media/music/gameplayA.mp3"], "loop":true},
 		"gameplayB":		{"files":["media/music/gameplayB.mp3"], "loop":true},
 		"gameplayC":		{"files":["media/music/gameplayC.mp3"], "loop":true},
-		"gameplayC":		{"files":["media/music/climb1.mp3"], "loop":false},
-		"gameplayC":		{"files":["media/music/climb2.mp3"], "loop":false},
-		"gameplayC":		{"files":["media/music/player_hit1.mp3"], "loop":false},
-		"gameplayC":		{"files":["media/music/player_hit2.mp3"], "loop":false},
-		"gameplayC":		{"files":["media/music/throw.mp3"], "loop":false},
-		"gameplayC":		{"files":["media/music/wrong.mp3"], "loop":false},
-		"gameplayC":		{"files":["media/music/player1_victory1.mp3"], "loop":false},
-		"gameplayC":		{"files":["media/music/player1_victory2.mp3"], "loop":false},
-		"gameplayC":		{"files":["media/music/player2_victory1.mp3"], "loop":false},
-		"gameplayC":		{"files":["media/music/player2_victory2.mp3"], "loop":false}
+		"climb1":			{"files":["media/music/climb1.mp3"], "loop":false},
+		"climb2":			{"files":["media/music/climb2.mp3"], "loop":false},
+		"player_hit1":		{"files":["media/music/player_hit1.mp3"], "loop":false},
+		"player_hit2":		{"files":["media/music/player_hit2.mp3"], "loop":false},
+		"throw":			{"files":["media/music/throw.mp3"], "loop":false},
+		"wrong":			{"files":["media/music/wrong.mp3"], "loop":false},
+		"player1_victory1":	{"files":["media/music/player1_victory1.mp3"], "loop":false},
+		"player1_victory2":	{"files":["media/music/player1_victory2.mp3"], "loop":false},
+		"player2_victory1":	{"files":["media/music/player2_victory1.mp3"], "loop":false},
+		"player2_victory2":	{"files":["media/music/player2_victory2.mp3"], "loop":false}
 	},
 	/*SFX files - go crazy!*/
 	"sounds":{
