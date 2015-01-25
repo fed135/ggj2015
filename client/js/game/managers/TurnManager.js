@@ -59,50 +59,52 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 		this.playersReady = 0;
 		if(this.forceReadyTimer) this.forceReadyTimer.kill();
 
-		//Update tiles
-		var winners = [];
+		this.forceReadyTimer = new Timer(this.startTurn.bind(this), 3000);
+		Events.broadcast("turnEnd");
 
 		for(var i = 0; i<this.players.length; i++){
 			if(CameraManager.cameras[i].currentAltitude - this.players[i].altitude <= 3){
-				if(this.players[i].altitude >= this.maxLevel){
-					this.endReached = true;
-					winners.push(i);
-					this.players[i].victoryDance();
-				}
-				else{
+				if(this.players[i].altitude < this.maxLevel){
+				
 					//console.log("Loading section for player ", i);
 					MountainScroller.generateSection([CameraManager.cameras[i]]);
 				}
 			}
 		}
-
-		if(this.endReached){
-			if(winners.length > 1){
-				GameData.set("winner", "draw");
-			}
-			else if(winners.length == 1){
-				GameData.set("winner", winners[0]);
-			}
-			else{
-				console.error("Dafuk happenned");
-			}
-
-			return;
-		}
-
-		this.forceReadyTimer = new Timer(this.startTurn.bind(this), 3000);
-		Events.broadcast("turnEnd");
 	};
 
 	TurnManager.prototype.checkPlayersReady = function(){
 
 		this.playersReady++;
 
+		var winners = [];
+
 		if(this.playersReady == this.players.length){
 			if(this.forceReadyTimer) this.forceReadyTimer.kill();
 
+			for(var i = 0; i<this.players.length; i++){
+				console.log('checking if player ', i, ' has finished (',this.players[i].altitude,"/",this.maxLevel,")");
+				if(this.players[i].altitude >= this.maxLevel){
+					console.log("player ", i, " won");
+					this.endReached = true;
+					winners.push(i);
+					this.players[i].victoryDance();
+				}
+			}
+
 			if(!this.endReached){
 				setTimeout(this.startTurn.bind(this), this.turnDelay);
+			}
+			else{
+				if(winners.length > 1){
+					GameData.set("winner", "draw");
+				}
+				else if(winners.length == 1){
+					GameData.set("winner", winners[0]);
+				}
+				else{
+					console.error("Dafuk happenned");
+				}
 			}
 		}
 	};

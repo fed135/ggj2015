@@ -37,10 +37,6 @@ function(GameData, DisplayObject, Block){
 
 			//Build the pattern
 			for(u = 0; u< pattern.length; u++){
-				for(tile=0; tile<pattern[u].length;tile++){
-					this.buildTile(views[i], u , tile, pattern[u][tile]);
-				}
-				views[i].currentAltitude++;
 				if(views[i].currentAltitude >= this.maxLevel -1){
 
 					if(views[i].topSpawned) return;
@@ -53,7 +49,7 @@ function(GameData, DisplayObject, Block){
 						height:380,
 						dataWidth:586,
 						dataHeight:380,
-						y:-(this.maxLevel+1.4)*this.tileSize,
+						y:(-(this.maxLevel-0.5)*this.tileSize) + 10,
 						xOffset:views[i].index*586
 					});
 
@@ -70,6 +66,12 @@ function(GameData, DisplayObject, Block){
 
 					top.setIndex(0);
 					return;
+				}
+				else{
+					for(tile=0; tile<pattern[u].length;tile++){
+						this.buildTile(views[i], u , tile, pattern[u][tile]);
+					}
+					views[i].currentAltitude++;
 				}
 			}
 		}

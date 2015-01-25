@@ -32,6 +32,7 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 		this.addChild(this.wrapper);
 
 		this.skipTravel = false;
+		this.maxLevel = GameData.get("maxLevel");
 
 		this.backLayer = new DisplayObject();
 		this.wrapper.addChild(this.backLayer);
@@ -89,11 +90,12 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 		var
 			i = y+1,
 			dist=0,
-			len = Math.min(this.lanes[x].length, i+max)
+			len = Math.min(this.lanes[x].length+1, i+max)
 		;
 
 		for(; i<len;i++){
 			//console.log("checking ", x,",",i,"... is " , this.lanes[x][i]);
+			//if(i > this.maxLevel) break;
 			if(this.lanes[x][i] == 1){
 				break;
 			}

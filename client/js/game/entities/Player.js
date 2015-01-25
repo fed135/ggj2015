@@ -98,11 +98,12 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings){
 	Player.prototype.victoryDance = function(callback){
 
 		var thisRef = this;
-
+		var playerPos = this.y;
 		setTimeout(function(){
-			thisRef.level.travel(thisRef.level.y + (2.5 * thisRef.moveDist));
+			thisRef.level.skipTravel = false;
+			thisRef.level.travel(thisRef.level.y + 400);
 			thisRef.level.skipTravel = true;
-			var sumTween = new Tween(thisRef, {y:this.y - (2 * thisRef.moveDist)}, thisRef.climbSpeed, Easings.QUAD_IN_OUT).then({y:thisRef.y - (1.2 * thisRef.moveDist)}, thisRef.climbSpeed, Easings.QUAD_IN).play();
+			var sumTween = new Tween(thisRef, {y:playerPos - 420}, thisRef.climbSpeed, Easings.QUAD_OUT).then({y:playerPos-380}, thisRef.climbSpeed, Easings.QUAD_IN).play();
 		}, 125);
 	};
 
