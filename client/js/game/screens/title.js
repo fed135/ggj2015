@@ -199,6 +199,7 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 			if(GameData.get("menuStarted")==false || GameData.get("menuStarted")==undefined){
 				Sound.stop();
 				Sound.play("menu");
+				Sound.play("VO");
 				GameData.set("menuStarted",true);
 			}
 
