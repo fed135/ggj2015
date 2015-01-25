@@ -1,10 +1,13 @@
 // Title Screen
-define("screens/title",
+define("screens/result",
 [
 	// List sdk required module here...
 	"Arstider/Events",
 	"Arstider/Background",
 	"Arstider/DisplayObject",
+	"Arstider/TextField",
+	"Arstider/Shape",
+	"Arstider/Gradient",
 	"Arstider/Dictionary",
 	"Arstider/Tween",
 	"Arstider/Easings",
@@ -14,7 +17,7 @@ define("screens/title",
 	"entities/LargeButton",
 	"entities/Overlay"
 ],
-function(Events, Background, DisplayObject, Dictionary, Tween, Easings, GameData, Sound, LargeButton, Overlay)
+function(Events, Background, DisplayObject, TextField, Shape, Gradient, Dictionary, Tween, Easings, GameData, Sound, LargeButton, Overlay)
 {	
 	/**
     * Returns an object to be mixed-in to a screen class object. Methods are rescoped so that the 'this' keyword refers to the screen. 
@@ -37,27 +40,9 @@ function(Events, Background, DisplayObject, Dictionary, Tween, Easings, GameData
 
 			// Screen assets
 
-			this.property = new DisplayObject({
-				name: "property",
-				data: "media/locale/property.png",
-				x: 212,
-				y: 75
-			});
-			this.addChild(this.property);
-			this.property.dock(0.5, null);
-
-			this.logo = new DisplayObject({
-				name: "logo",
-				data: "media/locale/logo.png",
-				x: 142,
-				y: 250
-			});
-			this.addChild(this.logo);
-			this.logo.dock(0.5, null);
-
 			this.btnPlay = new LargeButton({
 				name: "btnPlay",
-				string: "PLAY",
+				string: "REPLAY",
 				font: "btnLargeFont",
 				scope: this,
 				x: 240,
@@ -66,80 +51,102 @@ function(Events, Background, DisplayObject, Dictionary, Tween, Easings, GameData
 				callback: this.play
 			});
 			this.addChild(this.btnPlay);
-			this.btnPlay.dock(0.5, null);
-				
-			this.btnContinue = new LargeButton({
-				name: "btnContinue",
-				string: "CONTINUE",
-				font: "btnLargeFont",
-				scope: this,
-				x: 240,
-				y: 672,
-				alpha: 0,
-				callback: this.play
+			this.btnPlay.dock(0.95,0.15);
+
+			this.winGradient = new Gradient({
+				type:"linear",
+				x1: 0,
+				y1: 0,
+				x2: 0,
+				y2: 1,
+				height:150
 			});
-			this.addChild(this.btnContinue);
-			this.btnContinue.dock(0.7, null);
+			this.winGradient.addColor(0, "#FFEE00");
+			this.winGradient.addColor(1, "#E86507");
 
-
-			this.btnNewGame = new LargeButton({
-				name: "btnNewGame",
-				string: "NEW_GAME",
-				font: "btnLargeFont",
-				scope: this,
-				x: 240,
-				y: 672,
-				alpha: 0,
-				callback: this.showOverlay
+			this.winTxt = new TextField(
+			{
+				name: "winTxt",
+			    text:Dictionary.translate("WIN"),
+			    x:500-250,
+			    y:525,
+			    width:500,
+			    height:180,
+			    strokeText: true
 			});
-			this.addChild(this.btnNewGame);
-			this.btnNewGame.dock(0.3, null);
+			this.addChild(this.winTxt);
+			this.winTxt.setFont("resultFont",{"fillStyle":this.winGradient.pattern});
 
-
-			// Overlay assets
-
-			this.overlay = new Overlay({
-				name: "overlay",
-				x: 0,
-				y: -672,
-				scope: this,
-				text: {
-					font: "overlayFont",
-					value: "CONFIRM_ERASE"
-				},
-				confirm: {
-					font: "btnSmallFont",
-					label: "YES",
-					callback: this.reset
-				},
-				cancel: {
-					font: "btnSmallFont",
-					label: "NO",
-					callback: this.hideOverlay
-				}
+			this.loseGradient = new Gradient({
+				type:"linear",
+				x1: 0,
+				y1: 0,
+				x2: 0,
+				y2: 1,
+				height:150
 			});
-			this.addChild(this.overlay);
+			this.loseGradient.addColor(0, "#03B7FF");
+			this.loseGradient.addColor(1, "#000878");
+
+			this.failTxt = new TextField(
+			{
+				name: "failTxt",
+			    text:Dictionary.translate("FAIL"),
+			    x:1100-250,
+			    y:300,
+			    width:500,
+			    height:180,
+			    rpY:0.5,
+			    alpha:0,
+			    strokeText: true
+			});
+			this.addChild(this.failTxt);
+			this.failTxt.setFont("resultFont",{"fillStyle":this.loseGradient.pattern, "strokeStyle":"black"});
+
 		},
 
-		update:function()
-		{
-			console.log("SUCE MOÉ");
-		},
 		
 		// Called at the end of the preloading
 		onload:function()
 		{			
-			if(this.firstTime == undefined || this.firstTime === "true")
-			{
-				this.playTween = new Tween(this.btnPlay, { alpha: 1, y: 445 }, 300, Easings.CIRC).play();
-				
-				this.setDefaultLocalStorage();
-			}
-			else
-			{
-				this.continueTween = new Tween(this.btnContinue, { alpha: 1, y: 445 }, 300, Easings.CIRC).play();
-				this.newGameTween = new Tween(this.btnNewGame, { alpha: 1, y: 445 }, 300, Easings.CIRC).play();
-			}
+			var thisRef = this;
+
+			new Tween(this.failTxt, {y:this.failTxt.y+75,alpha:1},650 , Easings.LINEAR)
+			.then({rotation:120},1000,Easings.QUAD_IN_OUT)
+			.then({rotation:80},500,Easings.QUAD_IN_OUT)
+			.then({rotation:90},300,Easings.BACK_IN)
+			.play();
+
+			new Tween(this.winTxt, {x:325},1000 , Easings.SIN_IN_OUT)
+			.then({x:275},1000,Easings.SIN_IN_OUT)
+			.then(thisRef.sideBySide.bind(thisRef))
+			.play();
+
+			new Tween(this.winTxt, {y:530},250 , Easings.SIN_IN_OUT)
+			.then({y:500},250,Easings.SIN_IN_OUT)
+			.then({y:530},250,Easings.SIN_IN_OUT)
+			.then({y:500},250,Easings.SIN_IN_OUT)
+			.then(thisRef.upDown.bind(thisRef))
+			.play();
+
+		},
+
+		sideBySide:function(){
+			var thisRef = this;
+			new Tween(this.winTxt, {x:325},1000 , Easings.SIN_IN_OUT)
+			.then({x:275},1000,Easings.SIN_IN_OUT)
+			.then(thisRef.sideBySide.bind(thisRef))
+			.play();
+		},
+
+		upDown:function(){
+			var thisRef = this;
+			new Tween(this.winTxt, {y:530},250 , Easings.SIN_IN_OUT)
+			.then({y:500},250,Easings.SIN_IN_OUT)
+			.then({y:530},250,Easings.SIN_IN_OUT)
+			.then({y:500},250,Easings.SIN_IN_OUT)
+			.then(thisRef.upDown.bind(thisRef))
+			.play();
 		},
 		
 		play:function()
@@ -147,40 +154,7 @@ function(Events, Background, DisplayObject, Dictionary, Tween, Easings, GameData
 			if(this.isOverlay) return;
 						
 			Events.broadcast("Engine.gotoScreen", "screens/chooseLevel");
-		},
-
-		showOverlay:function()
-		{
-			var thisRef = this;
-			if(this.isOverlay) return;
-			console.log(this.overlay, thisRef.overlay);
-			this.overlayTween = new Tween(this.overlay, { y: 0 }, 400, Easings.QUAD_IN).then(function(){ thisRef.isOverlay = true; }).play();
-		},
-
-		hideOverlay:function()
-		{
-			var thisRef = this;
-
-			this.overlayTween = new Tween(this.overlay, { y: 672 }, 400, Easings.QUAD_OUT).then(function(){ thisRef.overlay.y = -672; thisRef.isOverlay = false; }).play();
-		},
-
-		reset:function()
-		{
-			this.setDefaultLocalStorage();
-
-			GameData.set("firstTime", "false", true);
-			
-			Events.broadcast("Engine.gotoScreen", "screens/story");
-
-			this.hideOverlay();
-		},
-		
-		setDefaultLocalStorage:function()
-		{
-			GameData.set("firstTime", "true", true);
-			GameData.set("muted", "false", true);
 		}
 		
 	};
-}
-);
+});

@@ -1,28 +1,103 @@
 define("entities/HUD",
 [
 	"Arstider/DisplayObject",
-	"Arstider/Shape",
+	"Arstider/commons/RingFiller",
 	"Arstider/Tween",
 	"Arstider/Easings",
 	"Arstider/Viewport"
 ],
-function(DisplayObject, Shape, Tween, Easings, Viewport){
+function(DisplayObject, RingFiller, Tween, Easings, Viewport){
 	
 	function HUD(){
-		Arstider.Super(this, DisplayObject);
-
-		this.turnBar = new Shape({
-			height:20,
-			width:Viewport.visibleWidth,
-			x:(Viewport.maxWidth - Viewport.visibleWidth) *0.5,
-			fillStyle:"white"
-		});
+		Arstider.Super(this, DisplayObject)
 
 		this.fill(1,1);
+		
+		this.minimap = new DisplayObject({
+			name: "minimap",
+			data:"media/images/screens/hud/progress.png",
+			x: 0,
+			y: 0
+		});
+		this.addChild(this.minimap);
+		this.minimap.dock(0.5,0);
 
-		this.turnBar.dock(null, 1);
+		this.p1Progress = new DisplayObject({
+			name: "p1Progress",
+			data:"media/images/screens/hud/pion_bleu.png",
+			x: 820 - 76*0.5,
+			y: 710
+		});
+		this.addChild(this.p1Progress);
 
+		this.p2Progress = new DisplayObject({
+			name: "p2Progress",
+			data:"media/images/screens/hud/pion_rouge.png",
+			x: 860 - 76*0.5,
+			y: 710
+		});
+		this.addChild(this.p2Progress);
+		
+		this.underTimer = new DisplayObject({
+			name: "underTimer",
+			data:"media/images/screens/hud/timer_cercle_under.png",
+			x: 0,
+			y: 781
+		});
+		this.addChild(this.underTimer);
+		this.underTimer.dock(0.5,null);
+
+		this.turnBar = new RingFiller({
+			name: "bar",
+			texture: "media/images/screens/hud/timer_cercle.png",
+			x: 100,
+			y: 705,
+			rpX:0.5,
+			rpY:0.5,
+			rotation:-90,
+			startAngle:0,
+			centerRadius: 0,
+			outsideRadius: 155
+		});
+		this.turnBar.dock(0.5, null);
+		this.turnBar.update = function(){
+			this.setProgress(this._pcent);
+		}
 		this.addChild(this.turnBar);
+
+		this.timerTab = new DisplayObject({
+			name: "timerTab",
+			data:"media/images/screens/hud/timer_coche.png",
+			x: 0,
+			y: 776
+		});
+		this.addChild(this.timerTab);
+		this.timerTab.dock(0.5,null);
+
+		this.title = new DisplayObject({
+			name: "title",
+			data:"media/images/screens/hud/title.png",
+			x: 0,
+			y: 925
+		});
+		this.addChild(this.title);
+		this.title.dock(0.5,null);
+
+		this.p1Controls = new DisplayObject({
+			name: "p1Controls",
+			data:"media/images/screens/hud/pad_bleu_left_normal.png",
+			x: 10,
+			y: 800
+		});
+		this.addChild(this.p1Controls);
+
+		this.p2Controls = new DisplayObject({
+			name: "p2Controls",
+			data:"media/images/screens/hud/pad_rouge_right_normal.png",
+			x: 1680-10-261,
+			y: 800
+		});
+		this.addChild(this.p2Controls);
 
 		this.turnBarTween;
 	}	
@@ -30,9 +105,10 @@ function(DisplayObject, Shape, Tween, Easings, Viewport){
 	Arstider.Inherit(HUD, DisplayObject);
 
 	HUD.prototype.updateBarFill = function(time){
+		this.turnBar._pcent = 1;
 		if(this.turnBarTween) this.turnBarTween.kill();
-
-		this.turnBarTween = new Tween(this.turnBar, {width:0}, time).play();
+		this.turnBarTween = new Tween(this.turnBar, {_pcent:0}, time).play();
+		//this.turnBar.draw = this.turnBar._draw;
 	};
 
 	return HUD;

@@ -50,12 +50,8 @@ define([],
 
 	// Win
 
-	"WIN_TITLE":"WIN SCREEN",
-	"SCORE":"SCORE",
-	"HIGHSCORE":"HIGH SCORE",
-
-	//Fail
-	"FAIL_TITLE":"FAIL SCREEN",
+	"WIN":"YOU WIN!",
+	"FAIL":"YOU LOSE!",
 
 	//END
 	"END_TITLE":"END SCREEN",
