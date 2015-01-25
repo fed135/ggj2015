@@ -6,9 +6,12 @@ define("entities/HUD",
 	"Arstider/Tween",
 	"Arstider/Events",
 	"Arstider/Easings",
+	"Arstider/Gradient",
+	"Arstider/TextField",
+	"Arstider/Dictionary",
 	"Arstider/Viewport"
 ],
-function(DisplayObject, RingFiller, GameData, Tween, Events, Easings, Viewport){
+function(DisplayObject, RingFiller, GameData, Tween, Events, Easings, Gradient, TextField, Dictionary, Viewport){
 	
 	function HUD(){
 		Arstider.Super(this, DisplayObject)
@@ -126,6 +129,56 @@ function(DisplayObject, RingFiller, GameData, Tween, Events, Easings, Viewport){
 				this.bluePickaxes.push(pickax);
 			}
 		};
+
+		this.winGradient = new Gradient({
+			type:"linear",
+			x1: 0,
+			y1: 0,
+			x2: 0,
+			y2: 1,
+			height:150
+		});
+		this.winGradient.addColor(0, "#FFEE00");
+		this.winGradient.addColor(1, "#E86507");
+
+		this.winTxt = new TextField(
+		{
+			name: "winTxt",
+		    text:Dictionary.translate("WIN"),
+		    x:500-250,
+		    y:525,
+		    width:500,
+		    height:180,
+		    strokeText: true
+		});
+		//this.addChild(this.winTxt);
+		this.winTxt.setFont("resultFont",{"fillStyle":this.winGradient.pattern});
+
+		this.loseGradient = new Gradient({
+			type:"linear",
+			x1: 0,
+			y1: 0,
+			x2: 0,
+			y2: 1,
+			height:150
+		});
+		this.loseGradient.addColor(0, "#03B7FF");
+		this.loseGradient.addColor(1, "#000878");
+
+		this.failTxt = new TextField(
+		{
+			name: "failTxt",
+		    text:Dictionary.translate("FAIL"),
+		    x:1100-250,
+		    y:300,
+		    width:500,
+		    height:180,
+		    rpY:0.5,
+		    alpha:0,
+		    strokeText: true
+		});
+		//this.addChild(this.failTxt);
+		this.failTxt.setFont("resultFont",{"fillStyle":this.loseGradient.pattern, "strokeStyle":"black"});
 	}	
 
 
@@ -174,6 +227,10 @@ function(DisplayObject, RingFiller, GameData, Tween, Events, Easings, Viewport){
 
 			}
 		};
+	};
+
+	HUD.prototype.result = function(){
+		//if(this.turnBarTween) this.turnBarTween.kill();
 	};
 
 	return HUD;

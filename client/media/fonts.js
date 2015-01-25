@@ -72,7 +72,7 @@ define([], {
 	},
 	"pauseTitleFont":
 	{
-		"family": "Arial Black",
+		"url": "media/fonts/RobbieRocketpants.woff",
 		"size": "100px",
 		"fontOffsetY": 20,
 		"fillStyle": "#3764FA",
@@ -82,7 +82,7 @@ define([], {
 	},
 	"resultFont":
 	{
-		"family": "Arial Black",
+		"url": "media/fonts/RobbieRocketpants.woff",
 		"size": "80px",
 		"fontOffsetY": 20,
 		"fillStyle": "#3764FA",
