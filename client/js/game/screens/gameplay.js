@@ -102,11 +102,19 @@ function(Background, DisplayObject, Shape, Gradient, Events, Sound, Tween, Easin
 		//once assets are loaded
 		onload:function(){	
 			console.log("Starting");
+<<<<<<< HEAD
 			Sound.stop();
 			//Sound.play("gameplayA");
 			//Sound.play("gameplayB",{volume:0});
 			GameData.set("menuStarted",false);
 			Sound.play("gameplayC");
+=======
+			//Sound.stop();
+			//Sound.play("gameplayA");
+			//Sound.play("gameplayB",{volume:0});
+			GameData.set("menuStarted",false);
+			//Sound.play("gameplayC");
+>>>>>>> 6d9eff75cb018387e477927c1f2e785fefdede47
 
 			//Countdown before startTurn
 			var cd3 = new DisplayObject({
