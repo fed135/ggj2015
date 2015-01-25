@@ -8,6 +8,8 @@ define([],{
 		"gameplayC":		{"files":["media/music/gameplayC.mp3"], "loop":true},
 		"climb1":			{"files":["media/music/climb1.mp3"], "loop":false},
 		"climb2":			{"files":["media/music/climb2.mp3"], "loop":false},
+		"climb2":			{"files":["media/music/climb3.mp3"], "loop":false},
+		"climb2":			{"files":["media/music/climb4.mp3"], "loop":false},
 		"player_hit1":		{"files":["media/music/player_hit1.mp3"], "loop":false},
 		"player_hit2":		{"files":["media/music/player_hit2.mp3"], "loop":false},
 		"throw":			{"files":["media/music/throw.mp3"], "loop":false},
@@ -15,7 +17,8 @@ define([],{
 		"player1_victory1":	{"files":["media/music/player1_victory1.mp3"], "loop":false},
 		"player1_victory2":	{"files":["media/music/player1_victory2.mp3"], "loop":false},
 		"player2_victory1":	{"files":["media/music/player2_victory1.mp3"], "loop":false},
-		"player2_victory2":	{"files":["media/music/player2_victory2.mp3"], "loop":false}
+		"player2_victory2":	{"files":["media/music/player2_victory2.mp3"], "loop":false},
+		"VO":	{"files":["media/music/VO.mp3"], "loop":false}
 	},
 	/*SFX files - go crazy!*/
 	"sounds":{

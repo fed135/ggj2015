@@ -286,7 +286,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		if(this.sprite.animation.name == "climb"){
 			if(this.sprite.frame.index != currentFrame){
 				currentFrame = this.sprite.frame.index;
-				Sound.play("climb"+Math.floor((Math.random() * 2) + 1));
+				Sound.play("climb"+Math.floor((Math.random() * 4) + 1));
 			}
 		}
 	};
