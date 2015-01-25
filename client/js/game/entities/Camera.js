@@ -54,11 +54,11 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 			return;
 		}
 
-		console.log("take me to ", targetY);
+		//console.log("take me to ", targetY);
 
 		if(this.toCharTween != null) this.toCharTween.kill();
 
-		targetY = Arstider.checkIn(targetY, ((this.height - this.target.height) *0.5) - this.target.y);
+		targetY = Arstider.checkIn(targetY, ((this.height - this.target.height) *0.75) - this.target.y);
 
 		this.toCharTween = new Tween(this, {y : targetY}, this.travelSpeed, Easings.QUAD_IN_OUT).play();
 	};
@@ -84,6 +84,10 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 		//console.log(this.lanes);
 		//console.log("tile ", x, ", ",y, " :", isBlocker);
 		return isBlocker;
+	};
+
+	Camera.prototype.clearFrom = function(index){
+		//TODO: Optimize ;)
 	};
 
 	Camera.prototype.checkNextBlocker = function(x, y, max){

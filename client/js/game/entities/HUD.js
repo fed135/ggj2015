@@ -125,7 +125,7 @@ function(DisplayObject, RingFiller, GameData, Tween, Events, Easings, Viewport){
 		var pStart = 710;
 		var maxY = 100;
 
-		console.log(p1Ratio);
+		//console.log(p1Ratio);
 
 		new Tween(this.p1Progress, {y:pStart - (pStart - maxY)*p1Ratio },300 , Easings.LINEAR).play();
 		new Tween(this.p2Progress, {y:pStart - (pStart - maxY)*p2Ratio },300 , Easings.LINEAR).play();

@@ -19,6 +19,8 @@ function(GameData, DisplayObject, Block){
 
 		this.maxLevel = GameData.get("maxLevel");
 		this.tileSize = GameData.get("tileSize");
+
+		this.sideTreeOccurance = GameData.get("sideTreeOccurance");
 	}
 
 	MountainScroller.prototype.generateSection = function(views, pattern){
@@ -27,7 +29,9 @@ function(GameData, DisplayObject, Block){
 		var 
 			i = 0,
 			u,
-			tile
+			tile,
+			side,
+			sideTree
 		;
 
 		for(;i<views.length;i++){
@@ -71,7 +75,35 @@ function(GameData, DisplayObject, Block){
 					for(tile=0; tile<pattern[u].length;tile++){
 						this.buildTile(views[i], u , tile, pattern[u][tile]);
 					}
+
+					//Build side + posible decoration
+					//console.log("adding side ", views[i].currentAltitude*this.tileSize);
+					side = new DisplayObject({
+						data:"media/images/gameplay/decoration/border_0"+(Math.ceil(Math.random()*8))+".png",
+						x:(views[i].index == 0)?-53:512,
+						y:-views[i].currentAltitude*this.tileSize,
+						scaleX:(views[i].index == 0)?-1:1,
+						rpX:(views[i].index == 0)?0.5:0,
+					});
+
+					var randTest = Math.ceil(Math.random()*this.sideTreeOccurance);
+					if(randTest == 1){
+						sideTree = new DisplayObject({
+							data:"media/images/gameplay/decoration/side_tree_0"+(Math.ceil(Math.random()*6))+".png",
+							x:(views[i].index == 0)?-280:512,
+							y:-views[i].currentAltitude*this.tileSize,
+							scaleX:(views[i].index == 0)?1:-1,
+							rpX:(views[i].index == 0)?0:0.5,
+						});
+
+						views[i].decorationLayer.addChild(sideTree);
+					}
+
+					views[i].decorationLayer.addChild(side);
+
 					views[i].currentAltitude++;
+
+					views[i].clearFrom(views[i].currentAltitude - 20);
 				}
 			}
 		}
