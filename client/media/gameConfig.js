@@ -1,13 +1,15 @@
 define([], {
 
 	tileSize:256,
-	travelSpeed: 500,
+	travelSpeed: 900,
 	climbTiles:2,
 	climbSpeed:900,
 	throwSpeed:900,
 	preThrowDelay:150,
 	numSpins:3,
 	fallSpeed:150,
+
+	sideTreeOccurance:8,
 
 	maxLevel:120,
 
@@ -105,9 +107,9 @@ define([], {
 			[0, 0],
 			[0, 0],
 			[0, 1],
-			[0, 0],
+			[2, 0],
 			[1, 0],
-			[2, 0]
+			[0, 0]
 		]
 
 	]

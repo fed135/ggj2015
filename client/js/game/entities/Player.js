@@ -197,18 +197,16 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 			var rot = (direction * 360) * this.numSpins;
 			var otherHero = topLevel.getChild("Camera" + ((this.level.index == 0)?1:0)).target;
 			var pebbleWrapper = new DisplayObject({
-				width:28,
-				height:28,
+				width:72,
+				height:100,
 				x:this.global.x,
 				y:this.global.y,
-				rpX:0.4,
-				rpY:0.4
+				rpX:0.49,
+				rpY:0.49
 			});
 
 			var pebble = new DisplayObject({
-				data:"media/images/gameplay/blockers/blocker1.png",
-				width:24,
-				height:24,
+				data:"media/images/gameplay/pebble.png",
 				scaleX:direction
 			});
 			pebbleWrapper.addChild(pebble);
@@ -230,21 +228,23 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 
 	Player.prototype.fall = function(callback){
 
-		//this.sprite.gotoAnim("fall");
+		
 
 		var fallDist = this.level.checkPreviousBlocker(this.lane, this.altitude);
+		var thisRef = this;
 
-		Sound.play("player_hit"+Math.floor((Math.random() * 2) + 1));
+		setTimeout(function(){
+			Sound.play("player_hit"+Math.floor((Math.random() * 2) + 1));
 
+			//thisRef.sprite.gotoAnim("fall");
 
-		this.level.travel(this.level.y  (fallDist * this.moveDist));
-		this.level.skipTravel = true;
-        var sumTween = new Tween(this, {y:this.y + (fallDist * this.moveDist)}, this.fallSpeed*fallDist, Easings.QUAD_IN).then(callback).then(this.returnToIdle.bind(this)).play();
-		
-		//this.y += (fallDist*this.moveDist);
-		this.altitude -= fallDist;
+			thisRef.level.travel(thisRef.level.y -  (fallDist * thisRef.moveDist));
+			thisRef.level.skipTravel = true;
+	        var sumTween = new Tween(thisRef, {y:thisRef.y + (fallDist * thisRef.moveDist)}, thisRef.fallSpeed*fallDist, Easings.QUAD_IN).then(callback).then(thisRef.returnToIdle.bind(thisRef)).play();
+			
+			thisRef.altitude -= fallDist;
 
-		callback();
+		},thisRef.throwSpeed + this.preThrowDelay);
 	};
 
 	Player.prototype.penalty = function(callback){

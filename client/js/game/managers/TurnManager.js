@@ -86,7 +86,7 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 
 				this.players[i].returnToIdle();
 
-				console.log('checking if player ', i, ' has finished (',this.players[i].altitude,"/",this.maxLevel,")");
+				//console.log('checking if player ', i, ' has finished (',this.players[i].altitude,"/",this.maxLevel,")");
 				if(this.players[i].altitude >= this.maxLevel){
 					console.log("player ", i, " won");
 					this.endReached = true;
