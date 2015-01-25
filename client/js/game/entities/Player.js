@@ -206,7 +206,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 	Player.prototype.defence = function(callback){
 		//Defence anim
 
-		this.sprite.gotoAnim("defR"));
+		this.sprite.gotoAnim("defR");
 		callback();
 
 	};
