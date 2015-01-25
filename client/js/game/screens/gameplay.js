@@ -5,6 +5,7 @@ define("screens/gameplay",
 	"Arstider/Shape",
 	"Arstider/Gradient",
 	"Arstider/Events",
+	"Arstider/Sound",
 
 	"managers/CameraManager",
 	"managers/MountainScroller",
@@ -14,7 +15,7 @@ define("screens/gameplay",
 	"entities/Player",
 	"entities/HUD"
 ], 
-function(Background, DisplayObject, Shape, Gradient, Events, CameraManager, MountainScroller, PlayerController, TurnManager, Player, HUD){
+function(Background, DisplayObject, Shape, Gradient, Events, Sound, CameraManager, MountainScroller, PlayerController, TurnManager, Player, HUD){
 	var thisRef;
 
 	function resolvePlayerActions(){
@@ -101,6 +102,10 @@ function(Background, DisplayObject, Shape, Gradient, Events, CameraManager, Moun
 		//once assets are loaded
 		onload:function(){	
 			console.log("Starting");
+			Sound.stop();
+			//Sound.play("gameplayA");
+			//Sound.play("gameplayB",{volume:0});
+			Sound.play("gameplayC");
 			TurnManager.startTurn();
 		},
 		

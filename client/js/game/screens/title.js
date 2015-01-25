@@ -193,6 +193,8 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 		// Called at the end of the preloading
 		onload:function()
 		{				
+			Sound.play("menu");
+
 			this.logoAnimControl();
 
 			this.buttonAnimControl();
