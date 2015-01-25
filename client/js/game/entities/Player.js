@@ -247,7 +247,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 				
 				setTimeout(function(){
 					topLevel.addChild(pebbleWrapper);
-					thisRef.sprite.gotoAnim("idle");
+					//thisRef.sprite.gotoAnim("idle");
 					var pebbleTween = new Tween(pebbleWrapper, {x:otherHero.global.x, y:otherHero.global.y, rotation:rot}, thisRef.throwSpeed, Easings.CIRC_IN_OUT).then(function(){
 						topLevel.removeChild(pebbleWrapper);
 						callback();
