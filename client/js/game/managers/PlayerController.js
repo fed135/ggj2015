@@ -55,6 +55,8 @@ function(Keyboard, GameData, Events){
 			i = 0
 		;
 
+		if(!this.selectedInput) return;
+
 		if(this.selectedInput[player] == undefined){
 			//console.log("input for player ", player, " : ", input);
 

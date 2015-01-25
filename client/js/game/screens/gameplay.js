@@ -6,6 +6,8 @@ define("screens/gameplay",
 	"Arstider/Gradient",
 	"Arstider/Events",
 	"Arstider/Sound",
+	"Arstider/Tween",
+	"Arstider/Easings",
 
 	"managers/CameraManager",
 	"managers/MountainScroller",
@@ -15,7 +17,7 @@ define("screens/gameplay",
 	"entities/Player",
 	"entities/HUD"
 ], 
-function(Background, DisplayObject, Shape, Gradient, Events, Sound, CameraManager, MountainScroller, PlayerController, TurnManager, Player, HUD){
+function(Background, DisplayObject, Shape, Gradient, Events, Sound, Tween, Easings, CameraManager, MountainScroller, PlayerController, TurnManager, Player, HUD){
 	var thisRef;
 
 	function resolvePlayerActions(){
@@ -72,6 +74,11 @@ function(Background, DisplayObject, Shape, Gradient, Events, Sound, CameraManage
 				this.players.push(player);
 				CameraManager.cameras[p].addPlayer(player);
 
+				if(p == 1){
+					player.lane = 1;
+					player.x += 256;
+				}
+
 				//Add startingGrass
 				ground = new DisplayObject({
 					name:"ground",
@@ -106,7 +113,51 @@ function(Background, DisplayObject, Shape, Gradient, Events, Sound, CameraManage
 			//Sound.play("gameplayA");
 			//Sound.play("gameplayB",{volume:0});
 			Sound.play("gameplayC");
-			TurnManager.startTurn();
+
+			//Countdown before startTurn
+			var cd3 = new DisplayObject({
+				data:"media/images/gameplay/countdown_3.png",
+				x:840 - (308*0.5),
+				y:-333
+			});
+			this.addChild(cd3);
+
+			var cd2 = new DisplayObject({
+				data:"media/images/gameplay/countdown_2.png",
+				x:840 - (296*0.5),
+				y:-333
+			});
+			this.addChild(cd2);
+
+			var cd1 = new DisplayObject({
+				data:"media/images/gameplay/countdown_1.png",
+				x:840 - (191*0.5),
+				y:-333
+			});
+			this.addChild(cd1);
+
+			var cdclimb = new DisplayObject({
+				data:"media/images/gameplay/countdown_climb.png",
+				x:840 - (941*0.5),
+				y:-245
+			});
+			this.addChild(cdclimb);
+
+			setTimeout(function(){
+				var tween1 = new Tween(cd3, {y:355}, 500, Easings.CIRC_IN).sleep(350).then(function(){
+					thisRef.removeChild(cd3);
+					var tween2 = new Tween(cd2, {y:355}, 500, Easings.CIRC_IN).sleep(350).then(function(){
+						thisRef.removeChild(cd2);
+						var tween2 = new Tween(cd1, {y:355}, 500, Easings.CIRC_IN).sleep(350).then(function(){
+							thisRef.removeChild(cd1);
+							var tween2 = new Tween(cdclimb, {y:400}, 500, Easings.CIRC_IN).sleep(350).then(function(){
+								thisRef.removeChild(cdclimb);
+								setTimeout(TurnManager.startTurn.bind(TurnManager),100);
+							}).play();
+						}).play();
+					}).play();
+				}).play();
+			},500);
 		},
 		
 		//called every frame
