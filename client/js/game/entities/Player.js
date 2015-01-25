@@ -106,7 +106,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 
 		this.level.travel(this.level.y + (numTiles * this.moveDist));
 		this.level.skipTravel = true;
-        var sumTween = new Tween(this, {y:this.y - (numTiles * this.moveDist)}, this.climbSpeed, Easings.QUAD_IN).then(callback).then(this.returnToIdle.bind(this)).play();
+        var sumTween = new Tween(this, {y:this.y - (numTiles * this.moveDist)}, this.climbSpeed, Easings.QUAD_OUT).then(callback).then(this.returnToIdle.bind(this)).play();
 		this.altitude += numTiles;
 
 		//Pickup check
@@ -129,9 +129,14 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 
 	Player.prototype.getPickup = function(block){
 		console.log(block);
+		var thisRef = this;
 
-		block.removeChildByName("pickup");
-		this.numPickups++;
+		setTimeout(function(){
+			block.removeChildByName("pickup");
+
+			thisRef.numPickups++;
+			if(thisRef.numPickups > 3) thisRef.numPickups = 3;
+		}, 500);
 	};
 
 	Player.prototype.move = function(callback){
@@ -244,7 +249,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 	};
 	var currentFrame = null;
 	Player.prototype.update = function(){
-		console.log(this.sprite.frame.index);
+		//console.log(this.sprite.frame.index);
 		if(this.sprite.animation.name == "climb"){
 			if(this.sprite.frame.index != currentFrame){
 				currentFrame = this.sprite.frame.index;
