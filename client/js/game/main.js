@@ -22,8 +22,8 @@ function gameStart(){
 			GameData.load(configs);
 			Sound.load("media/music/sprite", soundSprite);
 			
-			Viewport.minWidth = 1280;
-			Viewport.minHeight = 800;
+			Viewport.minWidth = 1680;
+			Viewport.minHeight = 1050;
 			Viewport.maxWidth = 1680;
 			Viewport.maxHeight = 1050;
 			
