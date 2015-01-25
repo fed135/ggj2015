@@ -1,6 +1,24 @@
 {"frames": [
 
 {
+	"filename": "attackL/Attack_01_Left_Red.png",
+	"frame": {"x":324,"y":2,"w":125,"h":201},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":58,"y":22,"w":125,"h":201},
+	"sourceSize": {"w":255,"h":255},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "attackR/Attack_01_Right_Red.png",
+	"frame": {"x":451,"y":2,"w":125,"h":201},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":58,"y":22,"w":125,"h":201},
+	"sourceSize": {"w":255,"h":255},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "climb/CLIMB1.png",
 	"frame": {"x":2,"y":2,"w":159,"h":241},
 	"rotated": false,
@@ -32,8 +50,8 @@
 	"version": "1.0",
 	"image": "p2.png",
 	"format": "RGBA8888",
-	"size": {"w":324,"h":245},
+	"size": {"w":578,"h":245},
 	"scale": "0.17",
-	"smartupdate": "$TexturePacker:SmartUpdate:85d297cbddc14a78f069344c4c2994dd:a82da25dbf93adfef98b98da029ed51c:12cc48e7f91a03282dc7be0dfb697dc4$"
+	"smartupdate": "$TexturePacker:SmartUpdate:0501cebd8407ea54010013fbce79afc4:c3e5e9e10a04e7bc165eb189fecf4cf8:12cc48e7f91a03282dc7be0dfb697dc4$"
 }
 }

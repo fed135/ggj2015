@@ -2,11 +2,13 @@ define("entities/HUD",
 [
 	"Arstider/DisplayObject",
 	"Arstider/commons/RingFiller",
+	"Arstider/GameData",
 	"Arstider/Tween",
+	"Arstider/Events",
 	"Arstider/Easings",
 	"Arstider/Viewport"
 ],
-function(DisplayObject, RingFiller, Tween, Easings, Viewport){
+function(DisplayObject, RingFiller, GameData, Tween, Events, Easings, Viewport){
 	
 	function HUD(){
 		Arstider.Super(this, DisplayObject)
@@ -100,7 +102,9 @@ function(DisplayObject, RingFiller, Tween, Easings, Viewport){
 		this.addChild(this.p2Controls);
 
 		this.turnBarTween;
+	Events.bind("turnStart", this.updatePlayersPos.bind(this));
 	}	
+
 
 	Arstider.Inherit(HUD, DisplayObject);
 
@@ -109,6 +113,21 @@ function(DisplayObject, RingFiller, Tween, Easings, Viewport){
 		if(this.turnBarTween) this.turnBarTween.kill();
 		this.turnBarTween = new Tween(this.turnBar, {_pcent:0}, time).play();
 		//this.turnBar.draw = this.turnBar._draw;
+	};
+
+	HUD.prototype.updatePlayersPos = function(){
+		var maxAltitude = GameData.get("maxLevel");
+		var p1Altitude = this.parent.players[0].altitude;
+		var p2Altitude = this.parent.players[1].altitude;
+		var p1Ratio = p1Altitude / maxAltitude;
+		var p2Ratio = p2Altitude / maxAltitude;
+		var pStart = 710;
+		var maxY = 100;
+
+		console.log(p1Ratio);
+
+		new Tween(this.p1Progress, {y:pStart - (pStart - maxY)*p1Ratio },300 , Easings.LINEAR).play();
+		new Tween(this.p2Progress, {y:pStart - (pStart - maxY)*p2Ratio },300 , Easings.LINEAR).play();
 	};
 
 	return HUD;
