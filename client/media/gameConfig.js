@@ -11,7 +11,7 @@ define([], {
 
 	sideTreeOccurance:8,
 
-	maxLevel:12,
+	maxLevel:20,
 
 	/*	Local mode game playerControlls	*/
 	playerControlls:[

@@ -124,7 +124,7 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 			actions[1] = TurnManager.FALL;
 		}
 
-		if(actions[1] == TurnManager.ATTACK && actions[0] != TurnManager.DEFENCE && this.players[1].numPickups > 1){
+		if(actions[1] == TurnManager.ATTACK && actions[0] != TurnManager.DEFENCE && this.players[1].numPickups > 0){
 			actions[0] = TurnManager.FALL;
 		}
 

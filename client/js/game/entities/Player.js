@@ -29,6 +29,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		this.preThrowDelay = GameData.get("preThrowDelay");
 		this.fallSpeed = GameData.get("fallSpeed");
 		this.numSpins = GameData.get("numSpins");
+		this.maxLevel = GameData.get("maxLevel");
 		this.moveDist = tileSize;
 
 		this.debugShape = new Shape({
@@ -104,6 +105,12 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		this.sprite.gotoAnim("climb");
 		numTiles = Math.min(numTiles, availTiles);
 
+		console.log("b:",this.altitude + numTiles);
+		if(this.altitude + numTiles >= this.maxLevel){
+			numTiles =  (this.maxLevel-1) - this.altitude;
+		}
+		console.log("a:",this.altitude + numTiles);
+
 		if(numTiles == 0)Sound.play("wrong");
 
 		this.level.travel(this.level.y + (numTiles * this.moveDist));
@@ -135,6 +142,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		var thisRef = this;
 
 		setTimeout(function(){
+			if(block.children.length == 0) return;
 			block.removeChildByName("pickup");
 
 			thisRef.numPickups++;
