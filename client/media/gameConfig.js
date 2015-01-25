@@ -1,18 +1,21 @@
 define([], {
 
 	tileSize:256,
-	travelSpeed: 450,
+	travelSpeed: 900,
 	climbTiles:2,
-	climbSpeed:450,
-	throwSpeed:450,
-	preThrowDelay:75,
+	climbSpeed:900,
+	throwSpeed:600,
+	preThrowDelay:150,
 	numSpins:3,
-	fallSpeed:50,
+	fallSpeed:150,
 
 	sideTreeOccurance:8,
 	cloudOccurance:10,
 
 	maxLevel:120,
+
+	turnDuration: 2000,
+	turnDelay:75,
 
 	/*	Local mode game playerControlls	*/
 	playerControlls:[
@@ -43,9 +46,6 @@ define([], {
 		{name: "penalty", message:"is gazing at the clouds..."},
 		{name: "attackAndFall", message:"is in sync with the opponent, at a great cost."}
 	],
-
-	turnDuration: 2000,
-	turnDelay:75,
 
 	tiles:[
 		{
