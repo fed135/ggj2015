@@ -124,9 +124,9 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		var xTarget = (this.lane == 0)?128:-128;
 		setTimeout(function(){
 			thisRef.level.skipTravel = false;
-			thisRef.level.travel(thisRef.level.y + 350);
+			thisRef.level.travel(thisRef.level.y + 280);
 			thisRef.level.skipTravel = true;
-			var sumTween = new Tween(thisRef, {y:playerPos - 420, x:thisRef.x+xTarget}, thisRef.climbSpeed*0.8, Easings.QUAD_OUT).then({y:playerPos-280}, thisRef.climbSpeed*0.6, Easings.QUAD_IN).play();
+			var sumTween = new Tween(thisRef, {y:playerPos - 420, x:thisRef.x+xTarget}, thisRef.climbSpeed*0.5, Easings.QUAD_OUT).then({y:playerPos-280}, thisRef.climbSpeed*0.3, Easings.QUAD_IN).play();
 		}, 125);
 	};
 
