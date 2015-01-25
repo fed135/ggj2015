@@ -217,7 +217,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		if(this.numPickups > 0){
 			this.numPickups--;
 
-			this.sprite.gotoAnim("attackR"));
+			this.sprite.gotoAnim("attackR");
 
 			var thisRef = this;
 			var topLevel = this.level.parent;
@@ -241,8 +241,10 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 
 			Sound.play("throw");
 
-			topLevel.addChild(pebbleWrapper);
+			
 			setTimeout(function(){
+				topLevel.addChild(pebbleWrapper);
+				thisRef.sprite.gotoAnim("idle");
 				var pebbleTween = new Tween(pebbleWrapper, {x:otherHero.global.x, y:otherHero.global.y, rotation:rot}, thisRef.throwSpeed, Easings.CIRC_IN_OUT).then(function(){
 					topLevel.removeChild(pebbleWrapper);
 					callback();

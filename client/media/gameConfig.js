@@ -1,13 +1,13 @@
 define([], {
 
 	tileSize:256,
-	travelSpeed: 900,
+	travelSpeed: 450,
 	climbTiles:2,
-	climbSpeed:900,
-	throwSpeed:900,
-	preThrowDelay:150,
+	climbSpeed:450,
+	throwSpeed:450,
+	preThrowDelay:75,
 	numSpins:3,
-	fallSpeed:150,
+	fallSpeed:50,
 
 	sideTreeOccurance:8,
 	cloudOccurance:10,
@@ -44,8 +44,8 @@ define([], {
 		{name: "attackAndFall", message:"is in sync with the opponent, at a great cost."}
 	],
 
-	turnDuration: 3000,
-	turnDelay:150,
+	turnDuration: 2000,
+	turnDelay:75,
 
 	tiles:[
 		{
