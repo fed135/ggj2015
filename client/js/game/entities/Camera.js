@@ -14,17 +14,26 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 		this.index = props.index;
 		this.currentAltitude = 0;
 
-		this.update = function(dt){
-			this.x = this.width*this.index;
-		};
-
 		this.toCharTween = null
 
 		this.travelSpeed = GameData.get("travelSpeed");
+		this.tileSize = GameData.get("tileSize");
 
 		this.lanes = [[], []];
 
+		this.cameraPosY = 0.75;
+
 		this.topSpawned = false;
+
+		this.background = new DisplayObject({
+			name:"backgroundP",
+			data:"media/images/gameplay/parallax.png",
+			xOffset:(this.index == 0)?0:840,
+			largeData:true,
+			width:840,
+			dataWitdh:840
+		});
+		this.addChild(this.background);
 
 		this.wrapper = new DisplayObject({
 			width:527,
@@ -58,7 +67,7 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 
 		if(this.toCharTween != null) this.toCharTween.kill();
 
-		targetY = Arstider.checkIn(targetY, ((this.height - this.target.height) *0.75) - this.target.y);
+		targetY = Arstider.checkIn(targetY, ((this.height - this.target.height) *this.cameraPosY) - this.target.y);
 
 		this.toCharTween = new Tween(this, {y : targetY}, this.travelSpeed, Easings.QUAD_IN_OUT).play();
 	};
@@ -69,7 +78,16 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 		this.decorationLayer.addChild(this.target);
 		this.travel();
 
+		var thisRef = this;
+
 		Events.bind("turnEnd", this.travel.bind(this));
+		Events.bind("turnStart", function(){
+			if(thisRef.target.global.y > 1050*thisRef.cameraPosY){
+				console.log("emergencyTravel");
+				thisRef.skipTravel = false;
+				thisRef.travel.call(thisRef);
+			}
+		});
 	};
 
 	Camera.prototype.pushBlock = function(tile, x, y, isBlocker){
@@ -127,6 +145,15 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 
 		return dist;
 	};
+
+	Camera.prototype.update = function(){
+		this.x = this.width*this.index;
+		this.background.y = (-this.y);
+		if(!this.target) return;
+
+		//console.log("player pos:",this.target.y);
+		this.background.y = (-this.y) - (1680 - 1050) + ((1680 - 1050)*(-this.target.y / (this.maxLevel*this.tileSize)));
+	}
 
 	return Camera;
 });
