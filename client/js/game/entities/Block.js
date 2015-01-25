@@ -32,8 +32,8 @@ function(DisplayObject, GameData){
 			this.pickup = new DisplayObject({
 				name:"pickup",
 				data:"media/images/gameplay/pickup.png",
-				x:this.x,
-				y:this.y
+				x:(256-76)*0.5,
+				y:(256-125)*0.5
 			});
 			this.addChild(this.pickup);
 		}
