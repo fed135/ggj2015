@@ -35,49 +35,100 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 
 			// Screen assets
 
-			/*this.property = new DisplayObject({
-				name: "property",
-				data: "media/locale/property.png",
-				x: 212,
-				y: 75
+			this.logo3 = new DisplayObject({
+				name: "logo3",
+				data: "media/images/screens/title/title.png",
+				x: 117,
+				y: 250,
+				rpX:0.5,
+				rpY:0.5,
+				alpha:0.50
 			});
-			this.addChild(this.property);
-			this.property.dock(0.5, null);
+			this.addChild(this.logo3);
+
+			this.logo2 = new DisplayObject({
+				name: "logo2",
+				data: "media/images/screens/title/title.png",
+				x: 117,
+				y: 250,
+				rpX:0.5,
+				rpY:0.5,
+				alpha:0.80
+			});
+			this.addChild(this.logo2);
 
 			this.logo = new DisplayObject({
 				name: "logo",
-				data: "media/locale/logo.png",
-				x: 142,
-				y: 250
+				data: "media/images/screens/title/title.png",
+				x: 117,
+				y: 250,
+				rpX:0.5,
+				rpY:0.5
 			});
 			this.addChild(this.logo);
-			this.logo.dock(0.5, null);*/
 
-			this.btnPlay = new LargeButton({
+			this.btnPlay2 = new DisplayObject({
+				name: "btnPlay2",
+				data:"media/images/screens/title/btnPlay.png",
+				x: 0,
+				y: 500
+			});
+			this.addChild(this.btnPlay2);
+			this.btnPlay2.dock(0.5,null);
+
+			this.btnPlay = new DisplayObject({
 				name: "btnPlay",
-				string: "PLAY",
-				font: "btnLargeFont",
-				scope: this,
-				x: 240,
-				y: 400,
-				alpha: 1,
-				callback: this.play
+				data:"media/images/screens/title/btnPlay.png",
+				x: 758,
+				y: 500,
+				onclick:this.play.bind(this),
+			    onpress:function(){this.loadBitmap("media/images/screens/title/btnPlayPress.png")},
+				onrelease:function(){this.loadBitmap("media/images/screens/title/btnPlay.png")},
+				onleave:function(){this.loadBitmap("media/images/screens/title/btnPlay.png")}
 			});
 			this.addChild(this.btnPlay);
-			this.btnPlay.dock(0.5, 0.7);
 
-			this.moreOpt = new LargeButton({
-				name: "moreOpt",
-				string: "MORE_OPT",
-				font: "btnLargeFont",
-				scope: this,
-				x: 240,
-				y: 500,
-				alpha: 1,
-				callback: this.showOptions
+			this.btnControls2 = new DisplayObject({
+				name: "btnControls2",
+				data:"media/images/screens/title/btnControls.png",
+				x: 0,
+				y: 575
 			});
-			this.addChild(this.moreOpt);
-			this.moreOpt.dock(0.5, 0.8);
+			this.addChild(this.btnControls2);
+			this.btnControls2.dock(0.5,null);
+
+			this.btnControls = new DisplayObject({
+				name: "btnControls",
+				data:"media/images/screens/title/btnControls.png",
+				x: 711,
+				y: 575,
+				onclick:function(){},
+			    onpress:function(){this.loadBitmap("media/images/screens/title/btnControlsPress.png")},
+				onrelease:function(){this.loadBitmap("media/images/screens/title/btnControls.png")},
+				onleave:function(){this.loadBitmap("media/images/screens/title/btnControls.png")}
+			});
+			this.addChild(this.btnControls);
+
+			this.btnCredits2 = new DisplayObject({
+				name: "btnCredits2",
+				data:"media/images/screens/title/btnCredits.png",
+				x: 0,
+				y: 650
+			});
+			this.addChild(this.btnCredits2);
+			this.btnCredits2.dock(0.5,null);
+
+			this.btnCredits = new DisplayObject({
+				name: "btnCredits",
+				data:"media/images/screens/title/btnCredits.png",
+				x: 730,
+				y: 650,
+				onclick:function(){},
+			    onpress:function(){this.loadBitmap("media/images/screens/title/btnCreditsPress.png")},
+				onrelease:function(){this.loadBitmap("media/images/screens/title/btnCredits.png")},
+				onleave:function(){this.loadBitmap("media/images/screens/title/btnCredits.png")}
+			});
+			this.addChild(this.btnCredits);
 				
 			/*this.btnContinue = new LargeButton({
 				name: "btnContinue",
@@ -141,8 +192,59 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 		
 		// Called at the end of the preloading
 		onload:function()
-		{							
-				this.setDefaultLocalStorage();
+		{				
+			this.logoAnimControl();
+
+			this.buttonAnimControl();
+				//this.setDefaultLocalStorage();
+		},
+
+		logoAnimControl:function(){
+			var thisRef = this;
+			this.logoAnimation(this.logo);
+			setTimeout(function(){
+				thisRef.logoAnimation(thisRef.logo2);
+			},300);	
+
+			setTimeout(function(){
+				thisRef.logoAnimation(thisRef.logo3);
+			},600);
+		},
+
+		logoAnimation:function(theThing)
+		{
+			var thisRef = this;
+			if(theThing.tween)theThing.tween.kill();
+			theThing.tween = new Tween(theThing, {x:175,y:260, rotation:-5},3500 , Easings.QUAD_IN_OUT)
+			.then({x:125,y:265,rotation:2},3000, Easings.QUAD_IN_OUT)
+			.then({x:80,y:230, rotation:-3},3000, Easings.QUAD_IN_OUT)
+			.then({x:145,y:210,rotation:3},3000, Easings.QUAD_IN_OUT)
+			.then(function(){
+				this.kill();
+				thisRef.logoAnimControl.call(thisRef);
+			})
+			.play();
+		},
+
+		buttonAnimControl:function(){
+			var thisRef = this;
+			this.buttonAnimation(this.btnPlay);
+			this.buttonAnimation(this.btnControls);
+			this.buttonAnimation(this.btnCredits);
+		},
+
+		buttonAnimation:function(theThing)
+		{
+			var thisRef = this;
+			if(theThing.tween)theThing.tween.kill();
+			theThing.tween = new Tween(theThing, {x:theThing.x-5,y:theThing.y+10},3000 , Easings.QUAD_IN_OUT)
+			.then({x:theThing.x+3,},3000, Easings.QUAD_IN_OUT)
+			.then({x:theThing.x,y:theThing.y},3000, Easings.QUAD_IN_OUT)
+			.then(function(){
+				this.kill();
+				thisRef.buttonAnimControl.call(thisRef);
+			})
+			.play();
 		},
 		
 		play:function()
