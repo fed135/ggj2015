@@ -7,12 +7,11 @@ define("entities/Player",
 
 	"Arstider/TextField",
 
+	"Arstider/Sound",
 	"Arstider/Tween",
-	"Arstider/Easings",
-
-	"Arstider/BitmapAnimation"
+	"Arstider/Easings"
 ],
-function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings, Sprite){
+function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easings){
 	
 	function Player(props){
 		Arstider.Super(this, DisplayObject, props);
@@ -37,19 +36,6 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings, Spri
 			alpha:0.7
 		});
 		this.addChild(this.debugShape);
-
-		console.log("Player index :", this.index);
-
-		this.sprite = new Sprite({
-			x:-104,
-			y:-82,
-			spritesheet:"media/images/gameplay/spritesheets/p"+(parseInt(this.index)+1),
-			speed:0.32
-		});
-		this.addChild(this.sprite);
-
-		this.scaleX = (this.index == 0)?1:-1,
-		this.rpX = 1;
 
 		this.numPickups = 0;
 
@@ -86,18 +72,13 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings, Spri
 		//console.log(Arstider.findElement("tile_"+this.lane+"_"+this.altitude));
 	};
 
-	Player.prototype.returnToIdle = function(){
-		this.sprite.gotoAnim("idle");
-	};
-
 
 	//////Actions
 
 	Player.prototype.climb= function(callback){
 
 		//Check if can go up by 
-		this.sprite.gotoAnim("climb");
-
+		Sound.play("climb"+Math.floor((Math.random() * 2) + 1));
 		//Max dist
 		var numTiles = this.climbDist;
 		var availTiles = this.level.checkNextBlocker(this.lane, this.altitude, numTiles);
@@ -106,7 +87,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings, Spri
 
 		this.level.travel(this.level.y + (numTiles * this.moveDist));
 		this.level.skipTravel = true;
-		var sumTween = new Tween(this, {y:this.y - (numTiles * this.moveDist)}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).then(this.returnToIdle.bind(this)).play();
+		var sumTween = new Tween(this, {y:this.y - (numTiles * this.moveDist)}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).play();
 		this.altitude += numTiles;
 
 		//Pickup check
@@ -138,9 +119,6 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings, Spri
 
 		var isBlocked = this.level.isBlocker((this.lane == 0)?1:0, this.altitude+1);
 		var direction;
-
-		this.sprite.gotoAnim("climb");
-
 		if(isBlocked) return;
 
 		if(this.lane == 0){
@@ -152,7 +130,9 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings, Spri
 			direction = this.x - this.moveDist;
 		}
 
-		var sumTween = new Tween(this, {y:this.y - this.moveDist, x:direction}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).then(this.returnToIdle.bind(this)).play();
+		Sound.play("climb"+Math.floor((Math.random() * 2) + 1));
+
+		var sumTween = new Tween(this, {y:this.y - this.moveDist, x:direction}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).play();
 		this.level.travel(this.level.y + this.moveDist);
 		this.level.skipTravel = true;
 		this.altitude += 1;
@@ -161,8 +141,6 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings, Spri
 	Player.prototype.defence = function(callback){
 		//Defence anim
 
-		//this.sprite.gotoAnim("defence");
-
 		callback();
 	};
 
@@ -170,9 +148,6 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings, Spri
 
 		//Attack anim
 		if(this.numPickups > 0){
-
-			this.sprite.gotoAnim("attack"+((this.index==0)?"R":"L"));
-
 			this.numPickups--;
 
 			var thisRef = this;
@@ -197,6 +172,8 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings, Spri
 			});
 			pebbleWrapper.addChild(pebble);
 
+			Sound.play("throw");
+
 			topLevel.addChild(pebbleWrapper);
 			setTimeout(function(){
 				var pebbleTween = new Tween(pebbleWrapper, {x:otherHero.global.x, y:otherHero.global.y, rotation:rot}, thisRef.throwSpeed, Easings.CIRC_IN_OUT).then(function(){
@@ -210,9 +187,9 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings, Spri
 
 	Player.prototype.fall = function(callback){
 
-		//this.sprite.gotoAnim("fall");
-
 		var fallDist = this.level.checkPreviousBlocker(this.lane, this.altitude);
+
+		Sound.play("player_hit"+Math.floor((Math.random() * 2) + 1));
 
 		this.y += (fallDist*this.moveDist);
 		this.altitude -= fallDist;
