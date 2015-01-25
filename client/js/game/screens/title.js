@@ -102,7 +102,7 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 				data:"media/images/screens/title/btnControls.png",
 				x: 711,
 				y: 575,
-				onclick:function(){},
+				onclick:this.showOptions.bind(this),
 			    onpress:function(){this.loadBitmap("media/images/screens/title/btnControlsPress.png")},
 				onrelease:function(){this.loadBitmap("media/images/screens/title/btnControls.png")},
 				onleave:function(){this.loadBitmap("media/images/screens/title/btnControls.png")}
@@ -123,7 +123,9 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 				data:"media/images/screens/title/btnCredits.png",
 				x: 730,
 				y: 650,
-				onclick:function(){},
+				onclick:function(){
+					Events.broadcast("Engine.gotoScreen", "screens/credits");
+				},
 			    onpress:function(){this.loadBitmap("media/images/screens/title/btnCreditsPress.png")},
 				onrelease:function(){this.loadBitmap("media/images/screens/title/btnCredits.png")},
 				onleave:function(){this.loadBitmap("media/images/screens/title/btnCredits.png")}
@@ -192,8 +194,13 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 		
 		// Called at the end of the preloading
 		onload:function()
-		{				
-			Sound.play("menu");
+		{	
+			console.log(GameData.get("menuStarted"));
+			if(GameData.get("menuStarted")==false || GameData.get("menuStarted")==undefined){
+				Sound.stop();
+				Sound.play("menu");
+				GameData.set("menuStarted",true);
+			}
 
 			this.logoAnimControl();
 
@@ -252,15 +259,14 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 		play:function()
 		{
 			if(this.isOverlay) return;
-						
+			GameData.set("toHtpFrom","title");
 			Events.broadcast("Engine.gotoScreen", "screens/htp");
 		},
 
 		showOptions:function()
 		{
-			if(this.isOverlay) return;
-			this.isOverlay = true;
-			this.optOverlay.alpha = 1;
+			GameData.set("toHtpFrom","button");
+			Events.broadcast("Engine.gotoScreen", "screens/htp");
 		},
 
 		/*showOverlay:function()

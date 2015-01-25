@@ -144,7 +144,12 @@ function(Events, Background, DisplayObject, TextField, Dictionary, Tween, Easing
 
 		skipStory:function(){
 			//GameData.set("firstTimeStory", "false", true); 
-			Events.broadcast("Engine.gotoScreen", "screens/gameplay");
+			if(GameData.get("toHtpFrom") == "title"){
+				Events.broadcast("Engine.gotoScreen", "screens/gameplay");
+			}else{
+				Events.broadcast("Engine.gotoScreen", "screens/title");
+			}
+			Keyboard.unbind("space");
 		}
 	};
 });
