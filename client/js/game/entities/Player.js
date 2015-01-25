@@ -121,11 +121,12 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 
 		var thisRef = this;
 		var playerPos = this.y;
+		var xTarget = (this.lane == 0)?128:-128;
 		setTimeout(function(){
 			thisRef.level.skipTravel = false;
-			thisRef.level.travel(thisRef.level.y + 400);
+			thisRef.level.travel(thisRef.level.y + 280);
 			thisRef.level.skipTravel = true;
-			var sumTween = new Tween(thisRef, {y:playerPos - 420}, thisRef.climbSpeed, Easings.QUAD_OUT).then({y:playerPos-380}, thisRef.climbSpeed, Easings.QUAD_IN).play();
+			var sumTween = new Tween(thisRef, {y:playerPos - 420, x:thisRef.x+xTarget}, thisRef.climbSpeed*0.5, Easings.QUAD_OUT).then({y:playerPos-280}, thisRef.climbSpeed*0.3, Easings.QUAD_IN).play();
 		}, 125);
 		this.parent.parent.parent.parent.hud.result();
 	};
@@ -231,6 +232,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 			
 		}else{
 			Sound.play("wrong");
+			callback();
 		}
 	};
 

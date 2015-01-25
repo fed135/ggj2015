@@ -87,7 +87,7 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 				this.players[i].returnToIdle();
 
 				//console.log('checking if player ', i, ' has finished (',this.players[i].altitude,"/",this.maxLevel,")");
-				if(this.players[i].altitude >= this.maxLevel){
+				if(this.players[i].altitude >= this.maxLevel-1){
 					console.log("player ", i, " won");
 					this.endReached = true;
 					winners.push(i);
@@ -120,11 +120,11 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 		//If player made no input...
 		//Go defence ?
 
-		if(actions[0] == TurnManager.ATTACK && actions[1] != TurnManager.DEFENCE){
+		if(actions[0] == TurnManager.ATTACK && actions[1] != TurnManager.DEFENCE && this.players[0].numPickups > 0){
 			actions[1] = TurnManager.FALL;
 		}
 
-		if(actions[1] == TurnManager.ATTACK && actions[0] != TurnManager.DEFENCE){
+		if(actions[1] == TurnManager.ATTACK && actions[0] != TurnManager.DEFENCE && this.players[1].numPickups > 1){
 			actions[0] = TurnManager.FALL;
 		}
 

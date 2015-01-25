@@ -10,12 +10,9 @@ define("screens/Preloader",[
 
 			this.bg = new DisplayObject({
 				name: "bg",
-				data: "media/images/screens/preloader/bg.jpg",
-				width:1136,
-				height:672
+				data: "media/images/screens/title/bg.jpg",
 			});
 			this.addChild(this.bg);
-			this.bg.dock(0.5,0.5);
 
 			this.bar = new DisplayObject({
 				name: "bar",

@@ -27,7 +27,7 @@ function gameStart(){
 			Viewport.maxWidth = 1680;
 			Viewport.maxHeight = 1050;
 			
-			Engine.debug = true;
+			//Engine.debug = true;
 			Arstider.verbose = 2;
 			Engine.start("main", true);
 			

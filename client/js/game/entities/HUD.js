@@ -79,14 +79,14 @@ function(DisplayObject, RingFiller, GameData, Tween, Events, Easings, Gradient, 
 		this.addChild(this.timerTab);
 		this.timerTab.dock(0.5,null);
 
-		this.title = new DisplayObject({
+		/*this.title = new DisplayObject({
 			name: "title",
 			data:"media/images/screens/hud/title.png",
 			x: 0,
 			y: 925
 		});
 		this.addChild(this.title);
-		this.title.dock(0.5,null);
+		this.title.dock(0.5,null);*/
 
 		this.p1Controls = new DisplayObject({
 			name: "p1Controls",
@@ -186,6 +186,7 @@ function(DisplayObject, RingFiller, GameData, Tween, Events, Easings, Gradient, 
 
 	HUD.prototype.updateBarFill = function(time){
 		this.turnBar._pcent = 1;
+		this.turnBar.alpha = 1;
 		if(this.turnBarTween) this.turnBarTween.kill();
 		this.turnBarTween = new Tween(this.turnBar, {_pcent:0}, time).play();
 		//this.turnBar.draw = this.turnBar._draw;
@@ -208,6 +209,7 @@ function(DisplayObject, RingFiller, GameData, Tween, Events, Easings, Gradient, 
 
 	HUD.prototype.stopBarProgress = function(){
 		if(this.turnBarTween) this.turnBarTween.kill();
+		this.turnBar.alpha = 0.5;
 	};
 
 	HUD.prototype.updatePickaxes = function(){
