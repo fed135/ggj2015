@@ -3,8 +3,6 @@ define([],{
 	"tracks":{
 		/*menu bgm track*/
 		"menu":				{"files":["media/music/menu.mp3"], "loop":true},
-		"gameplayA":		{"files":["media/music/gameplayA.mp3"], "loop":true},
-		"gameplayB":		{"files":["media/music/gameplayB.mp3"], "loop":true},
 		"gameplayC":		{"files":["media/music/gameplayC.mp3"], "loop":true},
 		"climb1":			{"files":["media/music/climb1.mp3"], "loop":false},
 		"climb2":			{"files":["media/music/climb2.mp3"], "loop":false},
