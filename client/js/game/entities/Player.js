@@ -108,7 +108,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 
 		this.level.travel(this.level.y + (numTiles * this.moveDist));
 		this.level.skipTravel = true;
-        var sumTween = new Tween(this, {y:this.y - (numTiles * this.moveDist)}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).then(this.returnToIdle.bind(this)).play();
+        var sumTween = new Tween(this, {y:this.y - (numTiles * this.moveDist)}, this.climbSpeed, Easings.QUAD_IN).then(callback).then(this.returnToIdle.bind(this)).play();
 		this.altitude += numTiles;
 
 		//Pickup check
