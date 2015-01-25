@@ -14,17 +14,24 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 		this.index = props.index;
 		this.currentAltitude = 0;
 
-		this.update = function(dt){
-			this.x = this.width*this.index;
-		};
-
 		this.toCharTween = null
 
 		this.travelSpeed = GameData.get("travelSpeed");
+		this.tileSize = GameData.get("tileSize");
 
 		this.lanes = [[], []];
 
 		this.topSpawned = false;
+
+		this.background = new DisplayObject({
+			name:"backgroundP",
+			data:"media/images/gameplay/parallax.png",
+			xOffset:(this.index == 0)?0:840,
+			largeData:true,
+			width:840,
+			dataWitdh:840
+		});
+		this.addChild(this.background);
 
 		this.wrapper = new DisplayObject({
 			width:527,
@@ -127,6 +134,15 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 
 		return dist;
 	};
+
+	Camera.prototype.update = function(){
+		this.x = this.width*this.index;
+		this.background.y = (-this.y);
+		if(!this.target) return;
+
+		//console.log("player pos:",this.target.y);
+		this.background.y = (-this.y) - (1680 - 1050) + ((1680 - 1050)*(-this.target.y / (this.maxLevel*this.tileSize)));
+	}
 
 	return Camera;
 });

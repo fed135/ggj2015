@@ -21,6 +21,7 @@ function(GameData, DisplayObject, Block){
 		this.tileSize = GameData.get("tileSize");
 
 		this.sideTreeOccurance = GameData.get("sideTreeOccurance");
+		this.cloudOccurance = GameData.get("cloudOccurance");
 	}
 
 	MountainScroller.prototype.generateSection = function(views, pattern){
@@ -31,7 +32,8 @@ function(GameData, DisplayObject, Block){
 			u,
 			tile,
 			side,
-			sideTree
+			sideTree,
+			cloud
 		;
 
 		for(;i<views.length;i++){
@@ -97,6 +99,18 @@ function(GameData, DisplayObject, Block){
 						});
 
 						views[i].decorationLayer.addChild(sideTree);
+					}
+
+					var randTest2 = Math.ceil(Math.random()*this.cloudOccurance);
+					if(randTest2 == 1){
+						cloud = new DisplayObject({
+							data:"media/images/gameplay/decoration/nuage_0"+(Math.ceil(Math.random()*5))+".png",
+							alpha:0.75,
+							x:((views[i].index == 0)?-280:512)+ (50 - (Math.random()*100)),
+							y:-views[i].currentAltitude*this.tileSize + (100 - (Math.random()*200))
+						});
+
+						views[i].backLayer.addChild(cloud);
 					}
 
 					views[i].decorationLayer.addChild(side);

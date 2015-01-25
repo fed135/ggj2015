@@ -105,11 +105,11 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		this.sprite.gotoAnim("climb");
 		numTiles = Math.min(numTiles, availTiles);
 
-		console.log("b:",this.altitude + numTiles);
+		//console.log("b:",this.altitude + numTiles);
 		if(this.altitude + numTiles >= this.maxLevel){
 			numTiles =  (this.maxLevel-1) - this.altitude;
 		}
-		console.log("a:",this.altitude + numTiles);
+		//console.log("a:",this.altitude + numTiles);
 
 		if(numTiles == 0)Sound.play("wrong");
 

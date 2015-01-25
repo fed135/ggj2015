@@ -40,15 +40,7 @@ function(Background, DisplayObject, Shape, Gradient, Events, Sound, Tween, Easin
 			//Number of players hard-coded here. Could easily be dynamic
 			this.numberOfPlayers = 2;
 			
-			/*Background.killBuffer();
-			var bgGradient = new Gradient();
-			bgGradient.addColor(0, "#4bb5ff");
-			bgGradient.addColor(1, "#afdeff");
-			Background.addChild(new Shape({
-				fillStyle:bgGradient.pattern,
-				width:1680,
-				height:1050
-			}));*/
+			Background.killBuffer();
 			
 			CameraManager.splitScreen(this, this.numberOfPlayers);
 			PlayerController.init(this.numberOfPlayers);
