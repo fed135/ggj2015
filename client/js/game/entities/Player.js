@@ -256,8 +256,6 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 
 			//thisRef.sprite.gotoAnim("fall");
 
-			thisRef.level.travel(thisRef.level.y -  (fallDist * thisRef.moveDist));
-			thisRef.level.skipTravel = true;
 	        var sumTween = new Tween(thisRef, {y:thisRef.y + (fallDist * thisRef.moveDist)}, thisRef.fallSpeed*fallDist, Easings.QUAD_IN).then(callback).then(thisRef.returnToIdle.bind(thisRef)).play();
 			
 			thisRef.altitude -= fallDist;
@@ -280,6 +278,11 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 				Sound.play("climb"+Math.floor((Math.random() * 4) + 1));
 			}
 		}
+	};
+
+	Player.prototype.attackAndFall = function(callback){
+		this.attack(function(){});
+		this.fall(callback);
 	};
 
 	return Player;	

@@ -12,7 +12,7 @@ define([], {
 	sideTreeOccurance:8,
 	cloudOccurance:10,
 
-	maxLevel:20,
+	maxLevel:120,
 
 	/*	Local mode game playerControlls	*/
 	playerControlls:[
@@ -40,7 +40,8 @@ define([], {
 		{name: "defence", message:"is a chicken. Coo coo ka cha. Coo coo ka choo!"},
 		{name: "attack", message:"is a savage beast!"},
 		{name: "fall", message:"is falling towards possible knee injuries!"},
-		{name: "penalty", message:"is gazing at the clouds..."}
+		{name: "penalty", message:"is gazing at the clouds..."},
+		{name: "attackAndFall", message:"is in sync with the opponent, at a great cost."}
 	],
 
 	turnDuration: 3000,
