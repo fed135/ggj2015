@@ -102,7 +102,8 @@ function(DisplayObject, RingFiller, GameData, Tween, Events, Easings, Viewport){
 		this.addChild(this.p2Controls);
 
 		this.turnBarTween;
-	Events.bind("turnStart", this.updatePlayersPos.bind(this));
+		Events.bind("turnStart", this.updatePlayersPos.bind(this));
+		Events.bind("turnEnd", this.stopBarProgress.bind(this));
 	}	
 
 
@@ -128,6 +129,10 @@ function(DisplayObject, RingFiller, GameData, Tween, Events, Easings, Viewport){
 
 		new Tween(this.p1Progress, {y:pStart - (pStart - maxY)*p1Ratio },300 , Easings.LINEAR).play();
 		new Tween(this.p2Progress, {y:pStart - (pStart - maxY)*p2Ratio },300 , Easings.LINEAR).play();
+	};
+
+	HUD.prototype.stopBarProgress = function(){
+		if(this.turnBarTween) this.turnBarTween.kill();
 	};
 
 	return HUD;
