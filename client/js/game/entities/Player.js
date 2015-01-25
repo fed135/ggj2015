@@ -36,7 +36,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings){
 		});
 		this.addChild(this.debugShape);
 
-		this.numPickups = 10;
+		this.numPickups = 0;
 
 		this.lane = 0;
 
@@ -88,6 +88,29 @@ function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings){
 		this.level.skipTravel = true;
 		var sumTween = new Tween(this, {y:this.y - (numTiles * this.moveDist)}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).play();
 		this.altitude += numTiles;
+
+		//Pickup check
+		if(this.level.lanes[this.lane][this.altitude] == 2){
+			this.getPickup(this.level.decorationLayer.getChildByName("tile_" +this.lanes+"_"+this.altitude));
+		}
+	};
+
+	Player.prototype.victoryDance = function(callback){
+
+		var thisRef = this;
+
+		setTimeout(function(){
+			thisRef.level.travel(thisRef.level.y + (2.5 * thisRef.moveDist));
+			thisRef.level.skipTravel = true;
+			var sumTween = new Tween(thisRef, {y:this.y - (2 * thisRef.moveDist)}, thisRef.climbSpeed, Easings.QUAD_IN_OUT).then({y:thisRef.y - (1.2 * thisRef.moveDist)}, thisRef.climbSpeed, Easings.QUAD_IN).play();
+		}, 125);
+	};
+
+	Player.prototype.getPickup = function(block){
+		console.log(block);
+
+		block.removeChildByName("pickup");
+		this.numPickups++;
 	};
 
 	Player.prototype.move = function(callback){

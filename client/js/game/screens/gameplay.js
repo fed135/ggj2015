@@ -62,6 +62,7 @@ function(Background, DisplayObject, Shape, Gradient, Events, CameraManager, Moun
 			this.players = [];
 
 			var player;
+			var ground;
 			for(var p = 0; p<this.numberOfPlayers; p++){
 				player = new Player({
 					id:p,
@@ -69,9 +70,26 @@ function(Background, DisplayObject, Shape, Gradient, Events, CameraManager, Moun
 				});
 				this.players.push(player);
 				CameraManager.cameras[p].addPlayer(player);
+
+				//Add startingGrass
+				ground = new DisplayObject({
+					name:"ground",
+					data:"media/images/gameplay/ground.png",
+					largeData:true,
+					width:840,
+					height:937,
+					dataWidth:840,
+					dataHeight:937,
+					y:100,
+					xOffset:p*840
+				});
+				CameraManager.cameras[p].addChild(ground);
 			}
 
 			TurnManager.players= this.players;
+
+			
+
 
 			this.hud = new HUD()
 			this.addChild(this.hud);

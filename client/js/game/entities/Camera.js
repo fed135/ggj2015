@@ -24,6 +24,8 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 
 		this.lanes = [[], []];
 
+		this.topSpawned = false;
+
 		this.wrapper = new DisplayObject({
 			width:512
 		});
@@ -71,8 +73,7 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 	Camera.prototype.pushBlock = function(tile, x, y, isBlocker){
 		this.tileLayer.addChild(tile);
 		if(tile.blocker) this.decorationLayer.addChild(tile.blocker);
-		if(isBlocker) this.lanes[x].push(1);
-		else this.lanes[x].push(0);
+		this.lanes[x].push(tile.type);
 	};
 
 	Camera.prototype.isBlocker = function(x, y){

@@ -28,6 +28,8 @@ function(Events, Background, DisplayObject, Shape, Dictionary, Tween, Easings, G
 		init:function()
 		{
 			
+			Tween.AUTO_KILL = true;
+
 			// Set screen background
 			Background.loadBitmap("media/images/screens/title/bg.jpg");
 

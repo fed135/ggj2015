@@ -1,10 +1,11 @@
 define("managers/MountainScroller", 
 [
 	"Arstider/GameData",
+	"Arstider/DisplayObject",
 
 	"entities/Block"
 ],
-function(GameData, Block){
+function(GameData, DisplayObject, Block){
 
 	MountainScroller.CLIMBABLE = 0;
 	MountainScroller.BLOCKER = 1;
@@ -15,6 +16,9 @@ function(GameData, Block){
 
 		this.blockerList = GameData.get("blockers");
 		this.patternList = GameData.get("patterns");
+
+		this.maxLevel = GameData.get("maxLevel");
+		this.tileSize = GameData.get("tileSize");
 	}
 
 	MountainScroller.prototype.generateSection = function(views, pattern){
@@ -37,6 +41,36 @@ function(GameData, Block){
 					this.buildTile(views[i], u , tile, pattern[u][tile]);
 				}
 				views[i].currentAltitude++;
+				if(views[i].currentAltitude >= this.maxLevel -1){
+
+					if(views[i].topSpawned) return;
+
+					var top = new DisplayObject({
+						name:"top",
+						data:"media/images/gameplay/top.png",
+						largeData:true,
+						width:586,
+						height:380,
+						dataWidth:586,
+						dataHeight:380,
+						y:-(this.maxLevel+1.4)*this.tileSize,
+						xOffset:views[i].index*586
+					});
+
+					if(views[i].index == 0){
+						top.x = -74;
+					}
+					else{
+						top.x = -20;
+					}
+
+					views[i].topSpawned = true;
+
+					views[i].pushBlock(top, 0, this.maxLevel, 3);
+
+					top.setIndex(0);
+					return;
+				}
 			}
 		}
 	};

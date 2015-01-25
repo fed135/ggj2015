@@ -8,7 +8,7 @@ define([], {
 	preThrowDelay:150,
 	numSpins:3,
 
-	maxLevel:50,
+	maxLevel:12,
 
 	/*	Local mode game playerControlls	*/
 	playerControlls:[

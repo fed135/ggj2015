@@ -27,6 +27,16 @@ function(DisplayObject, GameData){
 				y:this.y + props.blocker.yOffset
 			});
 		}
+
+		if(this.type == 2){
+			this.pickup = new DisplayObject({
+				name:"pickup",
+				data:"media/images/gameplay/pickup.png",
+				x:this.x,
+				y:this.y
+			});
+			this.addChild(this.pickup);
+		}
 	}
 
 	Arstider.Inherit(Block, DisplayObject);

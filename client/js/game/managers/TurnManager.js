@@ -33,6 +33,10 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 		this.players;
 		this.playersReady=0;
 
+		this.forceReadyTimer;
+
+		this.endReached = false;
+
 		this.currentTurn = 0;
 
 		Events.bind("playerInput", this.endTurn.bind(this));
@@ -45,7 +49,7 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 
 		//console.log("Turn ", this.currentTurn);
 		Events.broadcast("turnStart", this.turnDuration);
-
+		if(this.forceReadyTimer) this.forceReadyTimer.kill();
 		this.turnTimer = new Timer(this.endTurn.bind(this), this.turnDuration);
 	};
 
@@ -53,14 +57,17 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 		//console.log("Round completed");
 		if(this.turnTimer) this.turnTimer.kill();
 		this.playersReady = 0;
-		Events.broadcast("turnEnd");
+		if(this.forceReadyTimer) this.forceReadyTimer.kill();
 
 		//Update tiles
+		var winners = [];
 
 		for(var i = 0; i<this.players.length; i++){
 			if(CameraManager.cameras[i].currentAltitude - this.players[i].altitude <= 3){
-				if(CameraManager.cameras[i].currentAltitude >= this.maxLevel){
-					console.log("reached the end!!!");
+				if(this.players[i].altitude >= this.maxLevel){
+					this.endReached = true;
+					winners.push(i);
+					this.players[i].victoryDance();
 				}
 				else{
 					//console.log("Loading section for player ", i);
@@ -68,6 +75,23 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 				}
 			}
 		}
+
+		if(this.endReached){
+			if(winners.length > 1){
+				GameData.set("winner", "draw");
+			}
+			else if(winners.length == 1){
+				GameData.set("winner", winners[0]);
+			}
+			else{
+				console.error("Dafuk happenned");
+			}
+
+			return;
+		}
+
+		this.forceReadyTimer = new Timer(this.startTurn.bind(this), 3000);
+		Events.broadcast("turnEnd");
 	};
 
 	TurnManager.prototype.checkPlayersReady = function(){
@@ -75,7 +99,11 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 		this.playersReady++;
 
 		if(this.playersReady == this.players.length){
-			setTimeout(this.startTurn.bind(this), this.turnDelay);
+			if(this.forceReadyTimer) this.forceReadyTimer.kill();
+
+			if(!this.endReached){
+				setTimeout(this.startTurn.bind(this), this.turnDelay);
+			}
 		}
 	};
 
