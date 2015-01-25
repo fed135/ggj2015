@@ -40,7 +40,7 @@ function(Keyboard, GameData, Events){
 
 	PlayerController.prototype.askForInput = function(){
 
-		Keyboard.enabled = false;
+		Keyboard.enabled = true;
 		this.selectedInput = new Array(this.numPlayers);
 	};
 

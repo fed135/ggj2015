@@ -24,7 +24,7 @@ function(DisplayObject, GameData){
 				name:"blocker",
 				data:"media/images/gameplay/blockers/"+props.blocker.url,
 				x:this.x + props.blocker.xOffset,
-				y:this.x + props.blocker.yOffset
+				y:this.y + props.blocker.yOffset
 			});
 		}
 	}

@@ -2,9 +2,12 @@ define("managers/TurnManager",
 [
 	"Arstider/GameData",
 	"Arstider/Timer",
-	"Arstider/Events"
+	"Arstider/Events",
+	
+	"managers/MountainScroller",
+	"managers/CameraManager"
 ],
-function(GameData, Timer, Events){
+function(GameData, Timer, Events, MountainScroller, CameraManager){
 	
 	TurnManager.MOVE = 0;
 	TurnManager.CLIMB = 1;
@@ -25,6 +28,8 @@ function(GameData, Timer, Events){
 		this.turnDuration = GameData.get("turnDuration");	//The ammount of time you have to place your inputs
 		this.turnDelay = GameData.get("turnDelay");			//Delay at the end of a turn before the next one
 
+		this.players = [];
+
 		this.currentTurn = 0;
 
 		Events.bind("playerInput", this.endTurn.bind(this));
@@ -34,16 +39,25 @@ function(GameData, Timer, Events){
 
 		this.currentTurn++;
 
-		console.log("Turn ", this.currentTurn);
+		//console.log("Turn ", this.currentTurn);
 		Events.broadcast("turnStart", this.turnDuration);
 
 		this.turnTimer = new Timer(this.endTurn.bind(this), this.turnDuration);
 	};
 
 	TurnManager.prototype.endTurn = function(){
-		console.log("Round completed");
+		//console.log("Round completed");
 		if(this.turnTimer) this.turnTimer.kill();
 		Events.broadcast("turnEnd");
+
+		//Update tiles
+
+		for(var i = 0; i<this.players.length; i++){
+			if(CameraManager.cameras[i].currentAltitude - this.players[i].altitude <= 3){
+				//console.log("Loading section for player ", i);
+				MountainScroller.generateSection([CameraManager.cameras[i]]);
+			}
+		}
 
 		setTimeout(this.startTurn.bind(this), this.turnDelay);
 	};

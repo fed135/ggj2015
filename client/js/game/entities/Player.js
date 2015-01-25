@@ -2,9 +2,11 @@ define("entities/Player",
 [
 	"Arstider/DisplayObject",
 	"Arstider/Shape",
-	"Arstider/GameData"
+	"Arstider/GameData",
+
+	"Arstider/TextField"
 ],
-function(DisplayObject, Shape, GameData){
+function(DisplayObject, Shape, GameData, TextField){
 	
 	function Player(props){
 		Arstider.Super(this, DisplayObject, props);
@@ -18,8 +20,8 @@ function(DisplayObject, Shape, GameData){
 		this.moveDist = tileSize;
 
 		this.debugShape = new Shape({
-			width:64,
-			height:64,
+			width:this.width,
+			height:this.width,
 			fillStyle:"red",
 			alpha:0.7
 		});
@@ -35,6 +37,15 @@ function(DisplayObject, Shape, GameData){
 
 		this.x += ((tileSize - this.width)*0.5);
 		this.y += ((tileSize - this.height)*0.5);
+
+		this.debugLocation = new TextField({
+			width:this.width,
+			height:this.width,
+			text:" - "
+		});
+
+		this.debugLocation.setFont("scoreFont", {fillStyle:"white"});
+		this.addChild(this.debugLocation);
 	}
 
 	Arstider.Inherit(Player, DisplayObject);
@@ -43,25 +54,28 @@ function(DisplayObject, Shape, GameData){
 
 		var move = GameData.get("actions")[action];
 		this[move.name](move.message);
+
+		this.debugLocation.setText(this.lane + ", "+this.altitude);
+		//console.log(Arstider.findElement("tile_"+this.lane+"_"+this.altitude));
 	};
 
 
 	//////Actions
 
 	Player.prototype.climb= function(msg){
-		console.log(this.name + " " + msg);
+		//console.log(this.name + " " + msg);
 
 		//Check if can go up by 
 
 		//Max dist
 		var numTiles = this.climbDist;
 
-		console.log("trying to climb ", numTiles, " tiles in lane ", this.lane, " at altitude ", this.altitude );
+		//console.log("trying to climb ", numTiles, " tiles in lane ", this.lane, " at altitude ", this.altitude );
 
 
 		var availTiles = this.level.checkNextBlocker(this.lane, this.altitude, numTiles);
 
-		console.log(availTiles, " available tiles");
+		//console.log(availTiles, " available tiles");
 
 		numTiles = Math.min(numTiles, availTiles);
 
@@ -70,7 +84,7 @@ function(DisplayObject, Shape, GameData){
 	};
 
 	Player.prototype.move = function(msg){
-		console.log(this.name + " " + msg);
+		//console.log(this.name + " " + msg);
 
 		var isBlocked = this.level.isBlocker((this.lane == 0)?1:0, this.altitude+1);
 		if(isBlocked) return;
@@ -89,12 +103,12 @@ function(DisplayObject, Shape, GameData){
 	};
 
 	Player.prototype.defence = function(msg){
-		console.log(this.name + " " + msg);
+		//console.log(this.name + " " + msg);
 		//Defence anim
 	};
 
 	Player.prototype.attack = function(msg){
-		console.log(this.name + " " + msg);
+		//console.log(this.name + " " + msg);
 		//Attack anim
 		if(this.numPickups > 0){
 			console.log("throwing pebble");
@@ -103,7 +117,7 @@ function(DisplayObject, Shape, GameData){
 	};
 
 	Player.prototype.fall = function(msg){
-		console.log(this.name + " " + msg);
+		//console.log(this.name + " " + msg);
 		var fallDist = this.level.checkPreviousBlocker(this.altitude, this.lane);
 
 		this.y += (fallDist*this.moveDist);
@@ -111,7 +125,7 @@ function(DisplayObject, Shape, GameData){
 	};
 
 	Player.prototype.penalty = function(msg){
-		console.log(this.name + " " + msg);
+		//console.log(this.name + " " + msg);
 		//Penalty anim
 	};
 
