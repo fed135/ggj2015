@@ -21,6 +21,8 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 
 		this.lanes = [[], []];
 
+		this.cameraPosY = 0.75;
+
 		this.topSpawned = false;
 
 		this.background = new DisplayObject({
@@ -65,7 +67,7 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 
 		if(this.toCharTween != null) this.toCharTween.kill();
 
-		targetY = Arstider.checkIn(targetY, ((this.height - this.target.height) *0.75) - this.target.y);
+		targetY = Arstider.checkIn(targetY, ((this.height - this.target.height) *this.cameraPosY) - this.target.y);
 
 		this.toCharTween = new Tween(this, {y : targetY}, this.travelSpeed, Easings.QUAD_IN_OUT).play();
 	};
@@ -76,7 +78,16 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 		this.decorationLayer.addChild(this.target);
 		this.travel();
 
+		var thisRef = this;
+
 		Events.bind("turnEnd", this.travel.bind(this));
+		Events.bind("turnStart", function(){
+			if(thisRef.target.global.y > 1050*thisRef.cameraPosY){
+				console.log("emergencyTravel");
+				thisRef.skipTravel = false;
+				thisRef.travel.call(thisRef);
+			}
+		});
 	};
 
 	Camera.prototype.pushBlock = function(tile, x, y, isBlocker){
