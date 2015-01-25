@@ -46,6 +46,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
             speed:0.32
         });
         this.addChild(this.sprite);
+        console.log(this.sprite);
 
         this.scaleX = (this.index == 0)?1:-1,
         this.rpX = 1;
@@ -95,7 +96,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 	Player.prototype.climb= function(callback){
 
 		//Check if can go up by 
-		Sound.play("climb"+Math.floor((Math.random() * 2) + 1));
+		//Sound.play("climb"+Math.floor((Math.random() * 2) + 1));
 		//Max dist
 		var numTiles = this.climbDist;
 		var availTiles = this.level.checkNextBlocker(this.lane, this.altitude, numTiles);
@@ -151,7 +152,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 			direction = this.x - this.moveDist;
 		}
 
-		Sound.play("climb"+Math.floor((Math.random() * 2) + 1));
+		//Sound.play("climb"+Math.floor((Math.random() * 2) + 1));
 
 		var sumTween = new Tween(this, {x:direction}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).play();
         var sumTween2 = new Tween(this, {y:this.y - this.moveDist}, this.climbSpeed, Easings.QUAD_IN).then(callback).then(this.returnToIdle.bind(this)).play();
@@ -240,6 +241,16 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		//Penalty anim
 
 		callback();
+	};
+	var currentFrame = null;
+	Player.prototype.update = function(){
+		console.log(this.sprite.frame.index);
+		if(this.sprite.animation.name == "climb"){
+			if(this.sprite.frame.index != currentFrame){
+				currentFrame = this.sprite.frame.index;
+				Sound.play("climb"+Math.floor((Math.random() * 2) + 1));
+			}
+		}
 	};
 
 	return Player;	
