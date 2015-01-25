@@ -27,6 +27,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		this.climbSpeed = GameData.get("climbSpeed");
 		this.throwSpeed = GameData.get("throwSpeed");
 		this.preThrowDelay = GameData.get("preThrowDelay");
+		this.fallSpeed = GameData.get("fallSpeed");
 		this.numSpins = GameData.get("numSpins");
 		this.moveDist = tileSize;
 
@@ -223,7 +224,12 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 
 		Sound.play("player_hit"+Math.floor((Math.random() * 2) + 1));
 
-		this.y += (fallDist*this.moveDist);
+
+		this.level.travel(this.level.y  (fallDist * this.moveDist));
+		this.level.skipTravel = true;
+        var sumTween = new Tween(this, {y:this.y + (fallDist * this.moveDist)}, this.fallSpeed*fallDist, Easings.QUAD_IN).then(callback).then(this.returnToIdle.bind(this)).play();
+		
+		//this.y += (fallDist*this.moveDist);
 		this.altitude -= fallDist;
 
 		callback();
