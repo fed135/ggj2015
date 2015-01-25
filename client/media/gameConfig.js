@@ -3,6 +3,12 @@ define([], {
 	tileSize:256,
 	travelSpeed: 500,
 	climbTiles:2,
+	climbSpeed:900,
+	throwSpeed:900,
+	preThrowDelay:150,
+	numSpins:3,
+
+	maxLevel:50,
 
 	/*	Local mode game playerControlls	*/
 	playerControlls:[
@@ -34,7 +40,7 @@ define([], {
 	],
 
 	turnDuration: 3000,
-	turnDelay:1000,
+	turnDelay:150,
 
 	tiles:[
 		{

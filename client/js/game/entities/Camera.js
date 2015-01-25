@@ -29,6 +29,8 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 		});
 		this.addChild(this.wrapper);
 
+		this.skipTravel = false;
+
 		this.backLayer = new DisplayObject();
 		this.wrapper.addChild(this.backLayer);
 		this.tileLayer = new DisplayObject();
@@ -41,11 +43,18 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 
 	Arstider.Inherit(Camera, DisplayObject);
 
-	Camera.prototype.travel = function(){
+	Camera.prototype.travel = function(targetY){
+
+		if(this.skipTravel){
+			this.skipTravel = false;
+			return;
+		}
+
+		console.log("take me to ", targetY);
 
 		if(this.toCharTween != null) this.toCharTween.kill();
 
-		var targetY = ((this.height - this.target.height) *0.5) - this.target.y;
+		targetY = Arstider.checkIn(targetY, ((this.height - this.target.height) *0.5) - this.target.y);
 
 		this.toCharTween = new Tween(this, {y : targetY}, this.travelSpeed, Easings.QUAD_IN_OUT).play();
 	};
@@ -69,8 +78,8 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 	Camera.prototype.isBlocker = function(x, y){
 
 		var isBlocker = (this.lanes[x] && this.lanes[x][y] == 1);
-		console.log(this.lanes);
-		console.log("tile ", x, ", ",y, " :", isBlocker);
+		//console.log(this.lanes);
+		//console.log("tile ", x, ", ",y, " :", isBlocker);
 		return isBlocker;
 	};
 
@@ -101,6 +110,7 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 		;
 
 		for(; i>=0; i--){
+			//console.log("checking ", x,",",i,"... is " , this.lanes[x][i]);
 			if(this.lanes[x][i] == 1){
 				break;
 			}

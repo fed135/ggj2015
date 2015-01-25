@@ -3,20 +3,29 @@ define("entities/Player",
 	"Arstider/DisplayObject",
 	"Arstider/Shape",
 	"Arstider/GameData",
+	"Arstider/Events",
 
-	"Arstider/TextField"
+	"Arstider/TextField",
+
+	"Arstider/Tween",
+	"Arstider/Easings"
 ],
-function(DisplayObject, Shape, GameData, TextField){
+function(DisplayObject, Shape, GameData, Events, TextField, Tween, Easings){
 	
 	function Player(props){
 		Arstider.Super(this, DisplayObject, props);
 
 		this.width = 64;
 		this.height = 64;
+		this.index = props.index;
 
 		var tileSize = GameData.get("tileSize");
 
 		this.climbDist = GameData.get("climbTiles");
+		this.climbSpeed = GameData.get("climbSpeed");
+		this.throwSpeed = GameData.get("throwSpeed");
+		this.preThrowDelay = GameData.get("preThrowDelay");
+		this.numSpins = GameData.get("numSpins");
 		this.moveDist = tileSize;
 
 		this.debugShape = new Shape({
@@ -27,7 +36,7 @@ function(DisplayObject, Shape, GameData, TextField){
 		});
 		this.addChild(this.debugShape);
 
-		this.numPickups = 0;
+		this.numPickups = 10;
 
 		this.lane = 0;
 
@@ -53,7 +62,10 @@ function(DisplayObject, Shape, GameData, TextField){
 	Player.prototype.doAction = function(action){
 
 		var move = GameData.get("actions")[action];
-		this[move.name](move.message);
+		var thisRef = this;
+		this[move.name](function(){
+			Events.broadcast("playerReady", thisRef.index);
+		});
 
 		this.debugLocation.setText(this.lane + ", "+this.altitude);
 		//console.log(Arstider.findElement("tile_"+this.lane+"_"+this.altitude));
@@ -62,71 +74,103 @@ function(DisplayObject, Shape, GameData, TextField){
 
 	//////Actions
 
-	Player.prototype.climb= function(msg){
-		//console.log(this.name + " " + msg);
+	Player.prototype.climb= function(callback){
 
 		//Check if can go up by 
 
 		//Max dist
 		var numTiles = this.climbDist;
-
-		//console.log("trying to climb ", numTiles, " tiles in lane ", this.lane, " at altitude ", this.altitude );
-
-
 		var availTiles = this.level.checkNextBlocker(this.lane, this.altitude, numTiles);
-
-		//console.log(availTiles, " available tiles");
 
 		numTiles = Math.min(numTiles, availTiles);
 
-		this.y -= (numTiles * this.moveDist);
+		this.level.travel(this.level.y + (numTiles * this.moveDist));
+		this.level.skipTravel = true;
+		var sumTween = new Tween(this, {y:this.y - (numTiles * this.moveDist)}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).play();
 		this.altitude += numTiles;
 	};
 
-	Player.prototype.move = function(msg){
-		//console.log(this.name + " " + msg);
+	Player.prototype.move = function(callback){
 
 		var isBlocked = this.level.isBlocker((this.lane == 0)?1:0, this.altitude+1);
+		var direction;
 		if(isBlocked) return;
 
 		if(this.lane == 0){
 			this.lane = 1;
-			this.x += this.moveDist;
+			direction = this.x + this.moveDist;
 		}
 		else{
 			this.lane = 0;
-			this.x -= this.moveDist;
+			direction = this.x - this.moveDist;
 		}
 
-		this.y -= this.moveDist;
+		var sumTween = new Tween(this, {y:this.y - this.moveDist, x:direction}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).play();
+		this.level.travel(this.level.y + this.moveDist);
+		this.level.skipTravel = true;
 		this.altitude += 1;
 	};
 
-	Player.prototype.defence = function(msg){
-		//console.log(this.name + " " + msg);
+	Player.prototype.defence = function(callback){
 		//Defence anim
+
+		callback();
 	};
 
-	Player.prototype.attack = function(msg){
-		//console.log(this.name + " " + msg);
+	Player.prototype.attack = function(callback){
+
 		//Attack anim
 		if(this.numPickups > 0){
-			console.log("throwing pebble");
 			this.numPickups--;
+
+			var thisRef = this;
+			var topLevel = this.level.parent;
+			var direction = (this.index== 0)?1:-1;
+			var rot = (direction * 360) * this.numSpins;
+			var otherHero = topLevel.getChild("Camera" + ((this.level.index == 0)?1:0)).target;
+			var pebbleWrapper = new DisplayObject({
+				width:28,
+				height:28,
+				x:this.global.x,
+				y:this.global.y,
+				rpX:0.4,
+				rpY:0.4
+			});
+
+			var pebble = new DisplayObject({
+				data:"media/images/gameplay/blockers/blocker1.png",
+				width:24,
+				height:24,
+				scaleX:direction
+			});
+			pebbleWrapper.addChild(pebble);
+
+			topLevel.addChild(pebbleWrapper);
+			setTimeout(function(){
+				var pebbleTween = new Tween(pebbleWrapper, {x:otherHero.global.x, y:otherHero.global.y, rotation:rot}, thisRef.throwSpeed, Easings.CIRC_IN_OUT).then(function(){
+					topLevel.removeChild(pebbleWrapper);
+					callback();
+				}).play()
+			},this.preThrowDelay);
+			
 		}
 	};
 
-	Player.prototype.fall = function(msg){
-		//console.log(this.name + " " + msg);
-		var fallDist = this.level.checkPreviousBlocker(this.altitude, this.lane);
+	Player.prototype.fall = function(callback){
+
+		var fallDist = this.level.checkPreviousBlocker(this.lane, this.altitude);
 
 		this.y += (fallDist*this.moveDist);
 		this.altitude -= fallDist;
+
+		callback();
 	};
 
-	Player.prototype.penalty = function(msg){
-		//console.log(this.name + " " + msg);
+	Player.prototype.penalty = function(callback){
+
 		//Penalty anim
+
+		callback();
 	};
 
 	return Player;	

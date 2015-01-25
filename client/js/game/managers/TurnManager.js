@@ -28,11 +28,15 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 		this.turnDuration = GameData.get("turnDuration");	//The ammount of time you have to place your inputs
 		this.turnDelay = GameData.get("turnDelay");			//Delay at the end of a turn before the next one
 
-		this.players = [];
+		this.maxLevel = GameData.get("maxLevel");
+
+		this.players;
+		this.playersReady=0;
 
 		this.currentTurn = 0;
 
 		Events.bind("playerInput", this.endTurn.bind(this));
+		Events.bind("playerReady", this.checkPlayersReady.bind(this));
 	}
 
 	TurnManager.prototype.startTurn = function(){
@@ -48,39 +52,50 @@ function(GameData, Timer, Events, MountainScroller, CameraManager){
 	TurnManager.prototype.endTurn = function(){
 		//console.log("Round completed");
 		if(this.turnTimer) this.turnTimer.kill();
+		this.playersReady = 0;
 		Events.broadcast("turnEnd");
 
 		//Update tiles
 
 		for(var i = 0; i<this.players.length; i++){
 			if(CameraManager.cameras[i].currentAltitude - this.players[i].altitude <= 3){
-				//console.log("Loading section for player ", i);
-				MountainScroller.generateSection([CameraManager.cameras[i]]);
+				if(CameraManager.cameras[i].currentAltitude >= this.maxLevel){
+					console.log("reached the end!!!");
+				}
+				else{
+					//console.log("Loading section for player ", i);
+					MountainScroller.generateSection([CameraManager.cameras[i]]);
+				}
 			}
 		}
+	};
 
-		setTimeout(this.startTurn.bind(this), this.turnDelay);
+	TurnManager.prototype.checkPlayersReady = function(){
+
+		this.playersReady++;
+
+		if(this.playersReady == this.players.length){
+			setTimeout(this.startTurn.bind(this), this.turnDelay);
+		}
 	};
 
 	TurnManager.prototype.resolveTurn = function(actions){
 
-		var playerActions = [];
-
-		playerActions[0] = Arstider.checkIn(actions[0], TurnManager.PENALTY);
-		playerActions[1] = Arstider.checkIn(actions[1], TurnManager.PENALTY);
+		actions[0] = Arstider.checkIn(actions[0], TurnManager.PENALTY);
+		actions[1] = Arstider.checkIn(actions[1], TurnManager.PENALTY);
 
 		//If player made no input...
 		//Go defence ?
 
-		if(playerActions[0] == TurnManager.ATTACK && playerActions[1] != TurnManager.DEFENCE){
-			playerActions[1] == TurnManager.FALL;
+		if(actions[0] == TurnManager.ATTACK && actions[1] != TurnManager.DEFENCE){
+			actions[1] = TurnManager.FALL;
 		}
 
-		if(playerActions[1] == TurnManager.ATTACK && playerActions[0] != TurnManager.DEFENCE){
-			playerActions[0] == TurnManager.FALL;
+		if(actions[1] == TurnManager.ATTACK && actions[0] != TurnManager.DEFENCE){
+			actions[0] = TurnManager.FALL;
 		}
 
-		return playerActions;
+		return actions;
 	};
 
 	return new TurnManager();

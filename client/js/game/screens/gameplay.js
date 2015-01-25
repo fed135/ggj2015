@@ -52,12 +52,12 @@ function(Background, DisplayObject, Shape, Gradient, Events, CameraManager, Moun
 			//MountainScroller;
 			for(var i = 0; i<5; i++){
 				MountainScroller.generateSection(CameraManager.cameras, [[0, 0]]);
-				console.log(CameraManager.cameras[1].currentAltitude);
+				//console.log(CameraManager.cameras[1].currentAltitude);
 			}
-			console.log(CameraManager.cameras[1].currentAltitude);
+			//console.log(CameraManager.cameras[1].currentAltitude);
 
 			MountainScroller.generateSection(CameraManager.cameras);
-			console.log(CameraManager.cameras[1].currentAltitude);
+			//console.log(CameraManager.cameras[1].currentAltitude);
 
 			this.players = [];
 
