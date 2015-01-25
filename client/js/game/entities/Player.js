@@ -104,6 +104,8 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		this.sprite.gotoAnim("climb");
 		numTiles = Math.min(numTiles, availTiles);
 
+		if(numTiles == 0)Sound.play("wrong");
+
 		this.level.travel(this.level.y + (numTiles * this.moveDist));
 		this.level.skipTravel = true;
         var sumTween = new Tween(this, {y:this.y - (numTiles * this.moveDist)}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).then(this.returnToIdle.bind(this)).play();
@@ -138,10 +140,12 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 
 		var isBlocked = this.level.isBlocker((this.lane == 0)?1:0, this.altitude+1);
 		var direction;
+		if(isBlocked){
+			Sound.play("wrong");
+			return;
+		} 
 
 		this.sprite.gotoAnim("climb");
-
-		if(isBlocked) return;
 
 		if(this.lane == 0){
 			this.lane = 1;
@@ -214,6 +218,8 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 				}).play()
 			},this.preThrowDelay);
 			
+		}else{
+			Sound.play("wrong");
 		}
 	};
 
