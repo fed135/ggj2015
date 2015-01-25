@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Global game jam 2015</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		
+		<meta name="description" content="ggj2015" />
+		<meta name="robots" content="noindex,nofollow" />
+		
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="ggj2015" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta content="telephone=no" name="format-detection">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+		<meta name="HandheldFriendly" content="true" />
+		
+		<meta name="msapplication-TileColor" content="#000000">
+		<meta name="msapplication-TileImage" content="media/icons/favicon.png">
+		<link rel="shortcut icon" href="media/icons/favicon.png" />
+		<link rel="apple-touch-icon" href="media/icons/logo_57x57.png" sizes="57x57">
+		<link rel="apple-touch-icon" href="media/icons/logo_72x72.png" sizes="114x114">
+		<link rel="apple-touch-icon" href="media/icons/logo_114x114.png" sizes="72x72">
+		<link rel="apple-touch-icon" href="media/icons/logo_144x144.png" sizes="144x144">
+		<link rel="icon" href="media/icons/favicon.png">
+
+		<link href="css/main.css" media="screen" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div id="main" oncontextmenu="return false">
+		</div>
+		
+		<script src="js/libs/howler.min.js"></script>
+		<script src="js/libs/require.js"></script>
+
+		<script>
+			requirejs.config({
+				urlArgs: (true)?("_=" + (new Date()).getTime()):"_=1",
+				paths: {
+					screens:'js/game/screens', 
+					entities:'js/game/entities',
+					managers:'js/game/managers'
+				}
+			});
+		</script>
+		
+		<script src="js/game/main.js"></script>
+		
+		<script type="text/javascript">
+			gameStart();
+		</script>
+	</body>
+</html>
