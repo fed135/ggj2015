@@ -9,9 +9,10 @@ define("entities/Player",
 
 	"Arstider/Sound",
 	"Arstider/Tween",
-	"Arstider/Easings"
+	"Arstider/Easings",
+	"Arstider/BitmapAnimation"
 ],
-function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easings){
+function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easings, Sprite){
 	
 	function Player(props){
 		Arstider.Super(this, DisplayObject, props);
@@ -36,6 +37,18 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 			alpha:0.7
 		});
 		//this.addChild(this.debugShape);
+
+		this.sprite = new Sprite({
+            x:-104,
+            y:-82,
+            spritesheet:"media/images/gameplay/spritesheets/p"+(parseInt(this.index)+1),
+            speed:0.32
+        });
+        this.addChild(this.sprite);
+
+        this.scaleX = (this.index == 0)?1:-1,
+        this.rpX = 1;
+
 
 		this.numPickups = 0;
 
@@ -72,6 +85,9 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		//console.log(Arstider.findElement("tile_"+this.lane+"_"+this.altitude));
 	};
 
+    Player.prototype.returnToIdle = function(){
+        this.sprite.gotoAnim("idle");
+    };
 
 	//////Actions
 
@@ -83,11 +99,12 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		var numTiles = this.climbDist;
 		var availTiles = this.level.checkNextBlocker(this.lane, this.altitude, numTiles);
 
+		this.sprite.gotoAnim("climb");
 		numTiles = Math.min(numTiles, availTiles);
 
 		this.level.travel(this.level.y + (numTiles * this.moveDist));
 		this.level.skipTravel = true;
-		var sumTween = new Tween(this, {y:this.y - (numTiles * this.moveDist)}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).play();
+        var sumTween = new Tween(this, {y:this.y - (numTiles * this.moveDist)}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).then(this.returnToIdle.bind(this)).play();
 		this.altitude += numTiles;
 
 		//Pickup check
@@ -121,6 +138,8 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		var direction;
 		if(isBlocked) return;
 
+		this.sprite.gotoAnim("climb");
+
 		if(this.lane == 0){
 			this.lane = 1;
 			direction = this.x + this.moveDist;
@@ -132,7 +151,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 
 		Sound.play("climb"+Math.floor((Math.random() * 2) + 1));
 
-		var sumTween = new Tween(this, {y:this.y - this.moveDist, x:direction}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).play();
+        var sumTween = new Tween(this, {y:this.y - this.moveDist, x:direction}, this.climbSpeed, Easings.QUAD_IN_OUT).then(callback).then(this.returnToIdle.bind(this)).play();
 		this.level.travel(this.level.y + this.moveDist);
 		this.level.skipTravel = true;
 		this.altitude += 1;
@@ -141,7 +160,9 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 	Player.prototype.defence = function(callback){
 		//Defence anim
 
+		//this.sprite.gotoAnim("defence");
 		callback();
+
 	};
 
 	Player.prototype.attack = function(callback){
@@ -149,6 +170,8 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		//Attack anim
 		if(this.numPickups > 0){
 			this.numPickups--;
+
+			this.sprite.gotoAnim("attack"+((this.index==0)?"R":"L"));
 
 			var thisRef = this;
 			var topLevel = this.level.parent;
@@ -186,6 +209,8 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 	};
 
 	Player.prototype.fall = function(callback){
+
+		//this.sprite.gotoAnim("fall");
 
 		var fallDist = this.level.checkPreviousBlocker(this.lane, this.altitude);
 
