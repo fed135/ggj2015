@@ -52,7 +52,7 @@ function(GameData, Block){
 		tile = new Block({
 			type:type,
 			xPos:x,
-			yPos:container.currentAltitude + y,
+			yPos:container.currentAltitude,
 			blocker:(type == MountainScroller.BLOCKER)?getRandomFrom(this.blockerList):null
 		});
 

@@ -62,38 +62,52 @@ function(DisplayObject, GameData, Events, Tween, Easings){
 	Camera.prototype.pushBlock = function(tile, x, y, isBlocker){
 		this.tileLayer.addChild(tile);
 		if(tile.blocker) this.decorationLayer.addChild(tile.blocker);
-		this.lanes[x].length = y;
-		if(isBlocker) this.lanes[x][y] = 1;
+		if(isBlocker) this.lanes[x].push(1);
+		else this.lanes[x].push(0);
 	};
 
 	Camera.prototype.isBlocker = function(x, y){
-		return (this.lanes[x] && this.lanes[x].length >= y && this.lanes[x][y] == 1);
+
+		var isBlocker = (this.lanes[x] && this.lanes[x][y] == 1);
+		console.log(this.lanes);
+		console.log("tile ", x, ", ",y, " :", isBlocker);
+		return isBlocker;
 	};
 
 	Camera.prototype.checkNextBlocker = function(x, y, max){
 
 		var
-			i = y,
-			len = Math.min(this.lanes[x].length, y+max)
+			i = y+1,
+			dist=0,
+			len = Math.min(this.lanes[x].length, i+max)
 		;
 
 		for(; i<len;i++){
-			if(this.lanes[x][y] == 1 || (i-y > max)){
+			//console.log("checking ", x,",",i,"... is " , this.lanes[x][i]);
+			if(this.lanes[x][i] == 1){
 				break;
 			}
+			dist++;
 		}
 
-		return i - y;
+		return dist;
 	};
 
 	Camera.prototype.checkPreviousBlocker = function(x, y){
-		for(var i = y; i>=0; i--){
-			if(this.lanes[x][y] == 1){
+
+		var
+			i = y-1,
+			dist=0
+		;
+
+		for(; i>=0; i--){
+			if(this.lanes[x][i] == 1){
 				break;
 			}
+			dist++;
 		}
 
-		return y - i;
+		return dist;
 	};
 
 	return Camera;
