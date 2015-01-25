@@ -41,13 +41,13 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		//this.addChild(this.debugShape);
 
 		this.sprite = new Sprite({
-            x:-104,
-            y:-82,
+            x:-75,
+            y:-145,
             spritesheet:"media/images/gameplay/spritesheets/p"+(parseInt(this.index)+1),
             speed:0.32
         });
         this.addChild(this.sprite);
-        console.log(this.sprite);
+    	this.sprite.gotoAnim("victoryDance");
 
         this.scaleX = (this.index == 0)?1:-1,
         this.rpX = 1;
@@ -102,7 +102,13 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		var numTiles = this.climbDist;
 		var availTiles = this.level.checkNextBlocker(this.lane, this.altitude, numTiles);
 
-		this.sprite.gotoAnim("climb");
+		if(this.altitude == 0){
+			this.sprite.gotoAnim("climb");
+		}
+		else{
+			this.sprite.gotoAnim("climb");
+		}
+
 		numTiles = Math.min(numTiles, availTiles);
 
 		//console.log("b:",this.altitude + numTiles);
@@ -160,7 +166,12 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 			return;
 		} 
 
-		this.sprite.gotoAnim("climb");
+		if(this.altitude == 0){
+			this.sprite.gotoAnim("climb");
+		}
+		else{
+			this.sprite.gotoAnim("climb");
+		}
 
 		var curveType = Easings.QUAD_IN;
 		if(this.level.isBlocker(this.lane, this.altitude+1)){
@@ -195,7 +206,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 	Player.prototype.defence = function(callback){
 		//Defence anim
 
-		//this.sprite.gotoAnim("defence");
+		this.sprite.gotoAnim("defR"));
 		callback();
 
 	};
@@ -206,7 +217,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		if(this.numPickups > 0){
 			this.numPickups--;
 
-			this.sprite.gotoAnim("attack"+((this.index==0)?"R":"L"));
+			this.sprite.gotoAnim("attackR"));
 
 			var thisRef = this;
 			var topLevel = this.level.parent;
@@ -254,7 +265,7 @@ function(DisplayObject, Shape, GameData, Events, TextField, Sound, Tween, Easing
 		setTimeout(function(){
 			Sound.play("player_hit"+Math.floor((Math.random() * 2) + 1));
 
-			//thisRef.sprite.gotoAnim("fall");
+			thisRef.sprite.gotoAnim("hitR");
 
 	        var sumTween = new Tween(thisRef, {y:thisRef.y + (fallDist * thisRef.moveDist)}, thisRef.fallSpeed*fallDist, Easings.QUAD_IN).then(callback).then(thisRef.returnToIdle.bind(thisRef)).play();
 			
