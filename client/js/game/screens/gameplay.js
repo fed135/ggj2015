@@ -66,7 +66,7 @@ function(Background, DisplayObject, Shape, Gradient, Events, Sound, CameraManage
 			var ground;
 			for(var p = 0; p<this.numberOfPlayers; p++){
 				player = new Player({
-					id:p,
+					index:p,
 					name:"Player"+p
 				});
 				this.players.push(player);
@@ -81,7 +81,7 @@ function(Background, DisplayObject, Shape, Gradient, Events, Sound, CameraManage
 					height:937,
 					dataWidth:840,
 					dataHeight:937,
-					y:100,
+					y:152,
 					xOffset:p*840
 				});
 				CameraManager.cameras[p].addChild(ground);
