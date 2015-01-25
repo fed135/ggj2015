@@ -11,9 +11,10 @@ define("screens/htp",
 	"Arstider/Browser",
 	"Arstider/GameData",
 	"Arstider/Viewport",
+	"Arstider/Sound",
 	"Arstider/Keyboard"
 ],
-function(Events, Background, DisplayObject, BitmapAnimation, TextField, Dictionary, Tween, Easings, Browser, GameData, Viewport, Keyboard){
+function(Events, Background, DisplayObject, BitmapAnimation, TextField, Dictionary, Tween, Easings, Browser, GameData, Viewport, Sound, Keyboard){
 
 	return {
 		
@@ -155,6 +156,8 @@ function(Events, Background, DisplayObject, BitmapAnimation, TextField, Dictiona
 		skipStory:function(){
 			//GameData.set("firstTimeStory", "false", true); 
 			if(GameData.get("toHtpFrom") == "title"){
+				Sound.stop();
+				Sound.play("gameplayC");
 				Events.broadcast("Engine.gotoScreen", "screens/gameplay");
 			}else{
 				Events.broadcast("Engine.gotoScreen", "screens/title");
